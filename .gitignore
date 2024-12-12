@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+#起動時に生成される%1ファイルを無視する
+%1
+
+
