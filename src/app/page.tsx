@@ -89,6 +89,7 @@ export default function Home() {
           />
           Go to nextjs.org →
         </a>
+        <p>あ</p>
       </footer>
     </div>
   );
