@@ -3,12 +3,12 @@ import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
 import rehypeStringify from 'rehype-stringify'
 
-export async function markdownToHTML( content: string) {
+export async function markdownToHTML(content: string) {
     const result = await unified()
         .use(remarkParse)
         .use(remarkRehype)
         .use(rehypeStringify)
         .process(content);
 
-    return content;
+    return result.toString();
 }

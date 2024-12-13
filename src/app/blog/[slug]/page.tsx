@@ -15,13 +15,13 @@ export async function generateStaticParams() {
 }
 
 export default async function Slug({ params }: PostProps) {
-    const { slug } = params;
+    const { slug } = await params;
     const post = await getPostBySlug(slug);
 
     if(!post) {
         notFound();
     }
-    const html = markdownToHTML(post.content);
+    const html = await markdownToHTML(post.content);
 
     return (
         <Layout>
