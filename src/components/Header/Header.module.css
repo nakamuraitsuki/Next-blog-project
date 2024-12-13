@@ -3,11 +3,15 @@
 }
 
 .container {
-    max-width: 768px;
-    margin-left: auto;
-    margin-right: auto;
+    margin:0 48px;
     display: flex; 
-    justify-content: space-between; 
     align-items: center; 
-    height: 48px;
+    height: 48px; 
+}
+
+.links {
+    margin:auto 48px;
+    width:auto;
+    display:flex;
+    justify-content: space-between;
 }
