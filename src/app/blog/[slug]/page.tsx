@@ -1,24 +1,33 @@
 import { notFound } from "next/navigation";
 import Layout from "../../../components/Layout/Layout"
-import { getPostBySlug } from "../../../lib/posts"
+import { getAllPosts, getPostBySlug } from "@/lib/posts"
+import { markdownToHTML } from "@/lib/markdown";
 
 interface PostProps {
     params: { slug: string }
 }
 
-export default function Slug({ params }: PostProps) {
-    console.log("スラグ",params.slug)
-    const post = getPostBySlug(params.slug);
+export async function generateStaticParams() {
+    const posts = await getAllPosts();
+    return posts.map((post) => ({
+        slug: post.slug,
+    }));
+}
+
+export default async function Slug({ params }: PostProps) {
+    const { slug } = params;
+    const post = await getPostBySlug(slug);
 
     if(!post) {
         notFound();
     }
+    const html = markdownToHTML(post.content);
 
     return (
         <Layout>
             <h1>{post.frontMatter.title}</h1>
             <p>{post.frontMatter.date}</p>
-            <p>{post.content}</p>
+            <div dangerouslySetInnerHTML={{ __html: html }}></div>
         </Layout>
     )
 }
