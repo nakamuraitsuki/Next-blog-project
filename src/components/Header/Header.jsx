@@ -4,14 +4,12 @@ import styles from './Header.module.css'
 const Header = () => {
     return (
         <header className={styles.header}>
-            <div className={styles.container}>
-                <Link href="/">
-                    しゃべる葦原
-                </Link>
-                <div className={styles.links}>
-                    <div>記事一覧</div>
-                    <div>著者について</div>
-                </div>
+            <Link href="/">
+                しゃべる葦原
+            </Link>
+            <div className={styles.linkList}>
+                <Link href="/blog">記事一覧</Link>
+                <Link href="/about">著者について</Link>
             </div>
         </header>
     );
