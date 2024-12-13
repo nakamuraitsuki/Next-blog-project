@@ -13,6 +13,7 @@ export default function Home() {
           <div key={post.slug}>
             <p>{post.frontMatter.title}</p>
             <p>{post.frontMatter.description}</p>
+            <p>{post.slug}</p>
           </div>
         ))}
       </div>
