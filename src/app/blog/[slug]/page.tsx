@@ -27,7 +27,9 @@ export default async function Slug({ params }: PostProps) {
         <Layout>
             <h1>{post.frontMatter.title}</h1>
             <p>{post.frontMatter.date}</p>
-            <div dangerouslySetInnerHTML={{ __html: html }}></div>
+            <div 
+                dangerouslySetInnerHTML={{ __html: html }}
+            />
         </Layout>
     )
 }
