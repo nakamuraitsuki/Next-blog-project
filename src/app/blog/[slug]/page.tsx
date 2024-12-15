@@ -4,7 +4,7 @@ import { getAllPosts, getPostBySlug } from "@/lib/posts"
 import { markdownToHTML } from "@/lib/markdown";
 
 interface PostProps {
-    params: { slug: string }
+    params: Promise<{ slug: string }>
 }
 
 export async function generateStaticParams() {
@@ -14,8 +14,9 @@ export async function generateStaticParams() {
     }));
 }
 
-export default async function Slug({ params }: PostProps) {
-    const { slug } = await params;
+export default async function Slug(props: PostProps) {
+    const params = await props.params;
+    const { slug } = params;
     const post = await getPostBySlug(slug);
 
     if(!post) {
