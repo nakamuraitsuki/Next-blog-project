@@ -15,7 +15,7 @@ export async function generateStaticParams() {
 }
 
 export default async function Slug({ params }: PostProps) {
-    const { slug } = await params;
+    const { slug } = params;
     const post = await getPostBySlug(slug);
 
     if(!post) {
