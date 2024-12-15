@@ -1,5 +1,10 @@
-.listContainer{
+.title {
     width:100%;
-    display: flex;
-    justify-content: center;
+    margin: 32px auto;
+    text-align: center;
+    color: #6f5d00;
+}
+
+.List{
+    margin: 32px auto;
 }

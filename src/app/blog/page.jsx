@@ -7,9 +7,8 @@ export default async function Blog() {
     const posts = await getAllPosts();
     return (
         <Layout>
-            <h1>BLOG</h1>
-            <h2>記事一覧</h2>
-            <div className={styles.listConteiner}>
+            <h1 className={styles.title}>記事一覧</h1>
+            <div className={styles.List}>
                 <BlogCardList posts={posts}/>
             </div>
         </Layout>
