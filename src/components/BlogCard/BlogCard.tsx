@@ -4,12 +4,16 @@ interface FrontMatter {
     description: string;
 }
 
-const BlogCard = ({title, date, description} :FrontMatter) => {
+interface BlogCardProps {
+    frontMatter: FrontMatter;
+}
+
+const BlogCard = ({ frontMatter } :BlogCardProps) => {
     return (
         <div>
-            <p>{title}</p>
-            <p>{date}</p>
-            <p>{description}</p>
+            <p>{frontMatter.title}</p>
+            <p>{frontMatter.date}</p>
+            <p>{frontMatter.description}</p>
         </div>
     );
 }
