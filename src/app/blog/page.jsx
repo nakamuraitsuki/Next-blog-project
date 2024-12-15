@@ -1,5 +1,6 @@
 import Layout from "../../components/Layout/Layout"
 import { getAllPosts } from "@/lib/posts"
+import BlogCard from "@/components/BlogCard/BlogCard";
 
 export default async function Blog() {
     const posts = await getAllPosts();
@@ -9,9 +10,7 @@ export default async function Blog() {
             <h2>記事一覧</h2>
             {posts.map((post) => (
                 <div key={post.slug}>
-                    <p>{post.frontMatter.title}</p>
-                    <p>{post.frontMatter.description}</p>
-                    <p>{post.frontMatter.date}</p>
+                    <BlogCard frontMatter={post.frontMatter}/>
                 </div>
             ))}
         </Layout>
