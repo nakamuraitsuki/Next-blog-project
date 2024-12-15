@@ -1,0 +1,7 @@
+.cardList {
+    max-width:840px;
+    display: flex;
+    flex-wrap: wrap;
+    gap:40px;
+    margin:0 auto;
+}
