@@ -1,0 +1,48 @@
+.cardLink {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.card {
+    background-color: #fff9ee;
+    width: 400px;
+    height: 200px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px #eee2bc;
+    border: 1.5px solid #fff9ee;
+    transition: border-color 0.2s ease;
+}
+
+.card:hover {
+    border:1.5px solid #fce27c;
+}
+
+.title {
+    width:100%;
+    height:62px;
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin: 12px 6px;
+    border-bottom: 2px solid #fce27c;
+}
+
+.date {
+    width: 100%;
+    font-size: 0.875rem;
+    color: #6f5d00;
+    text-align: right;
+}
+
+.description {
+    width: 100%;
+    height:48px;
+    text-align: left;
+    font-size: 0.875rem;
+    word-wrap: break-word; 
+    word-break: break-word; 
+}
