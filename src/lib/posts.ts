@@ -38,7 +38,11 @@ export const getAllPosts = async (): Promise<Post[]> => {
       })
     );
 
-    return posts;
+    const sortedPosts = posts.sort((postA, postB) =>
+      new Date(postA.frontMatter.date) > new Date(postB.frontMatter.date) ? -1 : 1
+    );
+
+    return sortedPosts;
   } catch (error) {
     console.error('Error reading posts:', error);
     return []; // エラー時は空の配列を返す
