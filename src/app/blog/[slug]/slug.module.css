@@ -83,10 +83,11 @@
 }
 /*インラインコード*/
 .markdown p code {
-    background-color: #ffffff; 
+    background-color: #f8fafd; 
     padding: 2px 4px;
     border-radius: 4px;
     font-size: 1rem; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .markdown pre code {
