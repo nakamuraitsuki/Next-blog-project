@@ -3,7 +3,7 @@ import styles from "./slug.module.css"
 import Layout from "../../../components/Layout/Layout"
 import { getAllPosts, getPostBySlug } from "@/lib/posts"
 import { markdownToHTML } from "@/lib/markdown";
-import 'highlight.js/styles/default.css'
+import 'highlight.js/styles/nord.css';
 
 interface PostProps {
     params: Promise<{ slug: string }>
