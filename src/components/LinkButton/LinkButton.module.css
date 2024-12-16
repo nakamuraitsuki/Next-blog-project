@@ -1,0 +1,25 @@
+.button{
+    margin:0;
+    padding:12px;
+    display: block;
+    width: fit-content;
+    min-width: 150px;
+    background-color:#fce27c;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease; 
+}
+
+.button:hover {
+    transform: translateY(-0.5px); /* 要素を少し上に移動 */
+    box-shadow: 0 2px 4.5px rgba(0, 0, 0, 0.2); /* ホバー時に強調された影 */
+}
+
+.button:active{
+    box-shadow: none;
+}
+
+.text {
+    font-weight: bold;
+    font-size: 1.25rem;
+    text-align: center;
+}
