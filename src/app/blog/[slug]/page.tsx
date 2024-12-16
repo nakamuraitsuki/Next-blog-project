@@ -1,7 +1,9 @@
 import { notFound } from "next/navigation";
+import styles from "./slug.module.css"
 import Layout from "../../../components/Layout/Layout"
 import { getAllPosts, getPostBySlug } from "@/lib/posts"
 import { markdownToHTML } from "@/lib/markdown";
+import 'highlight.js/styles/nord.css';
 
 interface PostProps {
     params: Promise<{ slug: string }>
@@ -22,15 +24,19 @@ export default async function Slug(props: PostProps) {
     if(!post) {
         notFound();
     }
+
     const html = await markdownToHTML(post.content);
 
     return (
         <Layout>
-            <h1>{post.frontMatter.title}</h1>
-            <p>{post.frontMatter.date}</p>
-            <div 
-                dangerouslySetInnerHTML={{ __html: html }}
-            />
+            <h1 className={styles.hero}>{post.frontMatter.title}</h1>
+            <div className={styles.contents}>
+                <p className={styles.date}>{post.frontMatter.date}</p>
+                <div
+                    className={styles.markdown}
+                    dangerouslySetInnerHTML={{ __html: html }}    
+                />
+            </div>
         </Layout>
     )
 }

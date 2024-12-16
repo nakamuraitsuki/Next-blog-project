@@ -5,3 +5,9 @@
     gap:40px;
     margin:0 auto;
 }
+
+@media (max-width: 855px) {
+    .cardList {
+      justify-content: center; /* 画面の横幅が860px以下の時に中央揃え */
+    }
+}
