@@ -30,22 +30,28 @@
 */
 .markdown h1 {
     width: 100%;
-    margin: 8px auto;
+    margin-top: 24px;
     color: #6f5d00;
 }
 
 .markdown h2 {
     width: 100%;
     color: #6f5d00;
-    margin: 4px 0;
+    margin-top: 32px;
 }
 
 .markdown h3 {
+    margin: 16px 0;
     color: #6f5d00;
+}
+
+.markdown p{
+    font-size: 16px;
+    line-height: 2rem;
 }
 /*横線*/
 .markdown hr {
-    margin: 12px 0;
+    margin-bottom: 16px;
     border: none; /* デフォルトのスタイルをリセット */
     border-top: 1.5px solid #fce27c;
 }
