@@ -7,10 +7,24 @@
 
 .descriptions {
     width: 100%;
+    max-width: 840px;
+    margin: 0 auto;
+    padding: 0;
     display: flex;
     flex-direction: column;
     line-height: 2rem;
     align-items: center;
+}
+
+.right{
+    width: 100%;
+    display: flex;
+    justify-content: right;
+}
+
+.aboutLink{
+    color:#6f5d00;
+    text-decoration: underline;
 }
 
 .title {

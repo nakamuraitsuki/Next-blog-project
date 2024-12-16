@@ -1,4 +1,5 @@
 import styles from "./page.module.css"
+import Link from "next/link";
 import Layout from "@/components/Layout/Layout"
 import { getAllPosts } from "@/lib/posts"
 import BlogCardList from "@/components/BlogCardList/BlogCardList";
@@ -16,6 +17,9 @@ export default async function Home() {
       <div className={styles.descriptions}>
         <p>しがない大学生nakamuraitsukiの個人ブログです</p>
         <p>趣味のプログラミングで学んだことや感情の動いた出来事を備忘録的に記事にします</p>
+        <div className={styles.right}>
+          <Link href="/about" className={styles.aboutLink}>自己紹介はこちら</Link>
+        </div>
       </div>
       <h2 className={styles.title}>最近の記事</h2>
       <BlogCardList posts={reccentPosts}/>
