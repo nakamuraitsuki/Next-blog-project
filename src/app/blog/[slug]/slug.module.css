@@ -11,7 +11,7 @@
     margin: 0 auto;
     display:flex;
     flex-direction: column;
-    gap:24px;
+    gap:0;
     padding:24px;
     border-radius: 12px;
     background-color: #fff9ee;
@@ -24,3 +24,93 @@
     text-align: right;
     color: #6f5d00;
 }
+/*
+以降markdown関係
+タイトル関係
+*/
+.markdown h1 {
+    width: 100%;
+    margin: 8px auto;
+    color: #6f5d00;
+}
+
+.markdown h2 {
+    width: 100%;
+    color: #6f5d00;
+    margin: 4px 0;
+}
+
+.markdown h3 {
+    color: #6f5d00;
+}
+/*横線*/
+.markdown hr {
+    margin: 12px 0;
+    border: none; /* デフォルトのスタイルをリセット */
+    border-top: 1.5px solid #fce27c;
+}
+
+/*箇条書き*/
+.markdown ul {
+    margin: 0 24px;
+}
+
+.markdown ol {
+    margin: 0 24px;
+}
+
+.markdown li::marker {
+    color: #6f5d00;
+}
+/*リンク*/
+.markdown a {
+    text-decoration: underline;
+    color: #6f5d00;
+}
+/*画像*/
+.markdown img {
+    display: block;
+    margin:12px auto;
+}
+/*引用文*/
+.markdown blockquote {
+    margin: 1em 2em; /* 上下1em, 左右2emの余白 */
+    padding: 0.5em 1em; /* 内側に余白を追加 */
+    border-left: 4px solid #fce27c; /* 左側にラインを追加 */
+    color: #555; /* テキスト色を調整 */
+    font-style: italic; /* テキストを斜体に */
+    background-color: #ffffff;
+}
+/*インラインコード*/
+.markdown p code {
+    background-color: #ffffff; 
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-size: 0.95em; 
+}
+
+.markdown pre code {
+    background-color: #ffffff;
+    border-radius: 6px;
+}
+
+.markdown table {
+    width: 100%; 
+    border-collapse: collapse; 
+    margin: 20px 0;
+}
+  
+.markdown td {
+    padding: 8px 12px;
+    text-align: left;
+    border: 1px solid #6f5d00;
+}
+  
+.markdown th {
+    padding: 8px 12px;
+    text-align: left;
+    border: 1px solid #6f5d00;
+    background-color: #fce27c;
+    font-weight: bold;
+}
+
