@@ -1,7 +1,7 @@
 ---
 title: 'Nextでmarkdownで記事を書けるブログを作った話'
 date: '2024-12-13'
-description: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+description: 'このブログを作った行程をまとめています。'
 ---
 ## Next.jsの準備
 ## プロジェクトの作成

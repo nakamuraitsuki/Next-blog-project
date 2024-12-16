@@ -10,5 +10,7 @@ export async function markdownToHTML(content: string) {
         .use(rehypeStringify)
         .process(content);
 
+    console.log(result);
+
     return result.toString();
 }
