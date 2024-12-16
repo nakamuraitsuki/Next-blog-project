@@ -1,7 +1,7 @@
 import styles from "./about.module.css"
 import Layout from "../../components/Layout/Layout"
 
-export function ProfileText() {
+function ProfileText() {
     return(
         <div className={styles.profile}>
             <img 
@@ -33,7 +33,7 @@ export function ProfileText() {
     )
 }
 
-export function Profile() {
+function Profile() {
     return(
         <div>
             <h2 className={styles.title}>
@@ -44,7 +44,7 @@ export function Profile() {
     )
 }
 
-export function Description() {
+function Description() {
     return(
         <div>
             <p>
@@ -73,7 +73,7 @@ export function Description() {
     )
 }
 
-export function AboutText() {
+function AboutText() {
     return(
         <div>
             <h2 className={styles.title}>このサイトの存在理由</h2>
