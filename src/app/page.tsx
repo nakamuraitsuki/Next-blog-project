@@ -2,6 +2,7 @@ import styles from "./page.module.css"
 import Layout from "@/components/Layout/Layout"
 import { getAllPosts } from "@/lib/posts"
 import BlogCardList from "@/components/BlogCardList/BlogCardList";
+import LinkButton from "@/components/LinkButton/LinkButton";
 
 //最新記事の取得個数
 const reccent = 2;
@@ -18,6 +19,9 @@ export default async function Home() {
       </div>
       <h2 className={styles.title}>最近の記事</h2>
       <BlogCardList posts={reccentPosts}/>
+      <div className={styles.buttonWrap}>
+        <LinkButton href="/blog" text="もっとみる"/>
+      </div>
     </Layout>
   );
 }

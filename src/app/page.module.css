@@ -19,3 +19,9 @@
     text-align: center;
     color: #6f5d00;
 }
+
+.buttonWrap {
+    margin: 32px auto;
+    display: flex;
+    justify-content: center;
+}
