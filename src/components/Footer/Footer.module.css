@@ -8,3 +8,11 @@
     justify-content: center; 
     border-top: 1.5px solid #eee8e1;
 }
+
+@media (prefers-color-scheme: dark) {
+    .footer {
+        background-color: #333333; /* ダークモードの背景色 */
+        border-top: 1.5px solid #444444;
+        color: #ffffff; /* 文字色（必要なら追加） */
+    }
+}

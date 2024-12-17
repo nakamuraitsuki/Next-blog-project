@@ -8,3 +8,9 @@
 .List{
     margin: 32px auto;
 }
+
+@media (prefers-color-scheme: dark) {
+    .title{
+        color: #f3d500;
+    }
+}

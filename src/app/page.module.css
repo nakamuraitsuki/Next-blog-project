@@ -5,6 +5,12 @@
     color: #6f5d00;
 }
 
+@media (prefers-color-scheme: dark) {
+    .hero {
+        color: #f3d500; 
+    }
+}
+
 .descriptions {
     width: 100%;
     max-width: 840px;
@@ -16,15 +22,27 @@
     align-items: center;
 }
 
-.right{
+@media (prefers-color-scheme: dark) {
+    .descriptions {
+        color: #eee8e1;
+    }
+}
+
+.right {
     width: 100%;
     display: flex;
     justify-content: right;
 }
 
-.aboutLink{
-    color:#6f5d00;
+.aboutLink {
+    color: #6f5d00;
     text-decoration: underline;
+}
+
+@media (prefers-color-scheme: dark) {
+    .aboutLink {
+        color: #f3d500; /* リンク色を明るめに */
+    }
 }
 
 .title {
@@ -32,6 +50,12 @@
     margin: 12px auto;
     text-align: center;
     color: #6f5d00;
+}
+
+@media (prefers-color-scheme: dark) {
+    .title {
+        color: #f3d500;
+    }
 }
 
 .buttonWrap {
