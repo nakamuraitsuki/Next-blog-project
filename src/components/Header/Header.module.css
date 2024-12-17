@@ -36,3 +36,22 @@
 .link:hover {
     background-color: #eee8e1;
 }
+
+@media (prefers-color-scheme: dark) {
+    .header {
+        background-color: #333333;
+        border-bottom: 1.5px solid #444444;
+    }
+
+    .title {
+        color: #f3d500;
+    }
+
+    .link {
+        color: #ffffff;
+    }
+
+    .link:hover {
+        background-color: #555555; /* ホバー時の色 */
+    }
+}
