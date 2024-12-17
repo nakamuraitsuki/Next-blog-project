@@ -1,12 +1,12 @@
-.button{
-    margin:0;
-    padding:12px;
+.button {
+    margin: 0;
+    padding: 12px;
     display: block;
     width: fit-content;
     min-width: 150px;
-    background-color:#fce27c;
+    background-color: #fce27c;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease; 
+    transition: transform 0.2s ease;
 }
 
 .button:hover {
@@ -14,12 +14,30 @@
     box-shadow: 0 2px 4.5px rgba(0, 0, 0, 0.2); /* ホバー時に強調された影 */
 }
 
-.button:active{
+.button:active {
     box-shadow: none;
+}
+
+@media (prefers-color-scheme: dark) {
+    .button {
+        background-color: #e6b800; /* ダークモード時の背景色 */
+        box-shadow: 0 2px 4px rgba(128, 128, 128, 0.5); /* 影を暗く調整 */
+    }
+
+    .button:hover {
+        transform: translateY(-0.5px);
+        box-shadow: 0 2px 5px rgba(128, 128, 128, 0.7); /* より強い影を追加 */
+    }
 }
 
 .text {
     font-weight: bold;
     font-size: 1.25rem;
     text-align: center;
+}
+
+@media (prefers-color-scheme: dark) {
+    .text {
+        color: #f8fafd; /* ダークモード時のテキスト色 */
+    }
 }
