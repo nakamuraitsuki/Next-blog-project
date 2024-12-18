@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "しゃべる葦原",
   description: "nakamuraitsukiの個人ブログです",
+  openGraph: {
+    title:"しゃべる葦原"
+  }
 };
 
 export default function RootLayout({
