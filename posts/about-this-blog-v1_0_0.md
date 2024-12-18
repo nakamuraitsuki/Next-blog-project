@@ -147,7 +147,7 @@ App Routerって何だ？　なんかおすすめらしいです。
 ```
 ## Turbopackとは
 ---
-Turbopackというのは、Webpackに代わるバンドラーらしいです。
+**Turbopack**というのは、**Webpack**に代わるバンドラーらしいです。
 
 TypeScriptやJavaScriptが最適化されていて、起動が早いらしい。
 
@@ -180,3 +180,5 @@ import Card from "@/src/app/component/Card"
 **以上でNextのプロジェクトの作成が完了しました!**
 
 結局すべてデフォルトの選択肢に落ち着きましたね。
+
+## 3.Markdownファイルの取得
