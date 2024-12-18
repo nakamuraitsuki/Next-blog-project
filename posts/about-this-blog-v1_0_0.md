@@ -78,3 +78,105 @@ NextでMarkdownを扱うには**ファイルを取得するロジックや、rem
 
 結局苦戦するなら、Astroでよかったかなぁ…　と思ったりして。
 
+## 2.Nextプロジェクトの作成
+---
+[このサイト](https://nextjs-ja-translation-docs.vercel.app/docs/getting-started)とかを参考に、プロジェクトを作成しました。
+
+コマンド1つで自動セットアップ！
+```bash
+npx create-next-app@latest
+```
+
+このコマンドを打つと、さっそく質問攻めに遭うことに。
+
+```bash
+? What is your project named?
+```
+
+名前…``my-blog``とかでいいや。
+
+```bash
+? Would you like to use TypeScript? › No / Yes
+```
+
+TypeScriptかぁ。使うかも。Yseっと。
+
+```bash
+? Would you like to use ESLint? › No / Yes
+```
+
+ESLint…　サークルのpublic-website開発に参加させてもらったときにたくさんお世話になった記憶があります。とりあえずYes。
+
+```bash
+? Would you like to use Tailwind CSS? › No / Yes
+```
+
+**Tailwind CSS**ってなんだ？　
+
+私の今までの開発の中ではCSS Modulesを使うことがほとんどだったので、知らない子が出てきて困惑しました。調べた結果をちょっとまとめてみます。
+
+### Tailwind CSSとは
+---
+[Taliwind CSS](https://tailwindcss.com/)はCSSフレームワークの１つ。ユーティリティクラスと呼ばれるものをクラスの中に書くことで手軽にCSSを当てることができるようです。自由度が高く、CSSを書く必要がないという事で重宝する人もいるとか。
+
+調べてたら、Tailwind CSSを論理的に激推しする記事と、それに対してModule CSSもありじゃない？と反駁する記事がありました。興味深い記事だったので、是非読んでみてほしい。
+
+---
+Tailwind CSSは慣れるのに時間を食いそうな予感。Astroを使わなかったのと同様の理由で導入はしませんでした。
+
+```bash
+? Would you like your code inside a `src/` directory? › No / Yes
+```
+
+``/src``にまとまってた方が嬉しいのでYes。
+
+```bash
+? Would you like to use App Router? (recommended) › No / Yes
+```
+
+App Routerって何だ？　なんかおすすめらしいです。
+
+ちょっと調べてみたのですが、これがやけに複雑で…
+
+デフォルトの選択肢がYesなのでYesにしちゃいましたが、導入の必要はなかったかもしれないなと感じています。手に余るものを入れてしまったという印象。
+
+[公式ドキュメント](https://nextjs.org/docs)
+
+```bash
+? Would you like to use Turbopack for `next dev`? › No / Yes
+```
+## Turbopackとは
+---
+Turbopackというのは、Webpackに代わるバンドラーらしいです。
+
+TypeScriptやJavaScriptが最適化されていて、起動が早いらしい。
+
+---
+とりあえずYesにしておきました。
+
+```bash
+? Would you like to customize the import alias (`@/*` by default)? › No / Yes
+```
+デフォルトのインポートエイリアスを変えたいかと聞かれました。
+
+### インポートエイリアスとは
+---
+関数やコンポーネントを他のファイルから引っ張ってきたいときに
+```JavaScript
+import Card from "../../components/Card"
+```
+みたいに書いたりしますが、ファイル分割をたくさんすることで、相対パスを書くのが面倒になったりします。
+
+インポートエイリアスでは、``@/``をルートディレクトリとすることで、楽にパスを書ける機能のことです。
+
+```JavaScript
+import Card from "@/src/app/component/Card"
+```
+みたいな感じ。
+
+---
+インポートエイリアスは変えないのでNoとします。
+
+**以上でNextのプロジェクトの作成が完了しました!**
+
+結局すべてデフォルトの選択肢に落ち着きましたね。
