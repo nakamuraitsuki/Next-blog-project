@@ -16,8 +16,18 @@ export const metadata: Metadata = {
   title: "しゃべる葦原",
   description: "nakamuraitsukiの個人ブログです",
   openGraph: {
-    title:"しゃべる葦原"
-  }
+    title:"しゃべる葦原",
+    description: "nakamuraitsukiの個人ブログです",
+    url: "https://next-blog-project-one.vercel.app/",
+    images: [
+      {
+        url: "https://next-blog-project-one.vercel.app/icon/favicon.png",
+        width: 800,
+        height: 600,
+        alt: "ブログのイメージ",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
