@@ -185,3 +185,126 @@ import Card from "@/src/app/component/Card"
 ---
 最低限ブログとして動くためには、Markdownファイルをどこかしらのディレクトリに入れておいて、それを読み込むという事が必要になります。
 
+ひとまずは、「記事一覧ページ」のための記事の情報配列を得る関数の完成を目指してみます。
+
+### 記事の全件取得をする関数
+---
+まず、現時点でこのサイトで動いているものを載せておきます。
+```TypeScript
+import fs from 'fs/promises'; //fsモジュール（非同期版）
+import path from 'path'; //pathをつかさどる
+import matter from 'gray-matter';
+
+//メタデータの型
+interface FrontMatter {
+  title: string;
+  date: string;
+  description: string;
+}
+
+//記事の型
+interface Post {
+  frontMatter: FrontMatter;
+  slug: string;
+  content: string;
+}
+
+//起動時にルートディレクトリを得て、ルート直下のpostsディレクトリパスにする
+const postDirectory = path.join(process.cwd(), 'posts');
+
+// 全記事のデータを取得
+export const getAllPosts = async (): Promise<Post[]> => {
+  try {
+    // ディレクトリ内のファイルを非同期で読み取る
+    const files = await fs.readdir(postDirectory);
+
+    // 各ファイルの内容を処理
+    const posts: Post[] = await Promise.all(
+      files.map(async (fileName) => {
+        const slug = fileName.replace(/\.md$/, '');//.mdを消して名前だけにする(slug)
+        const filePath = path.join(postDirectory, fileName);//読み取るファイルの位置を特定
+        const fileContent = await fs.readFile(filePath, 'utf-8'); // 非同期読み込み
+        const { data, content } = matter(fileContent);//メタデータと本文を抽出
+
+        //returnの内容がpostsに入れられていく
+        return {
+          frontMatter: data as FrontMatter,
+          slug,
+          content,
+        };
+      })
+    );
+
+    //日付順にソート
+    const sortedPosts = posts.sort((postA, postB) =>
+      new Date(postA.frontMatter.date) > new Date(postB.frontMatter.date) ? -1 : 1
+    );
+    
+    return sortedPosts;//ソートした記事の配列を返す。
+  } catch (error) {
+    console.error('Error reading posts:', error);
+    return []; // エラー時は空の配列を返す
+  }
+};
+```
+この関数を作った中で学んだことを書き連ねてみます。
+- **fsモジュール**
+- **非同期関数**
+
+あれ、思ったより少ないな…
+### fsモジュール
+---
+ファイルの読み取りには**fs**というモジュール（関連する機能をひとまとめにしたやつ）を使います。
+
+fsは**F**ile **s**ystemの略で、Node.jsの標準モジュールです。
+
+**[公式ドキュメント](https://nodejs.org/api/fs.html#fsreadfilepath-options-callback)** やネットに転がっている記事が大変参考になりました。
+
+まずはインポートから。
+```TypeScript
+import fs from 'fs/promises';
+```
+
+``getAllPosts``関数の中でfsモジュールが使われているのは
+```TypeScript
+// ディレクトリ内のファイルを非同期で読み取る
+const files = await fs.readdir(postDirectory);
+…
+（中略）
+…
+const fileContent = await fs.readFile(filePath, 'utf-8'); // 非同期読み込み
+```
+の部分ですね。
+
+公式ドキュメント等ではコールバック関数でエラーハンドリングを行っていますが、いちいち書くのは面倒なので、
+```TypeScript
+try{
+    //記事取得
+} catch(error){
+    //エラーハンドリング
+}
+```
+の形でまとめています。
+
+#### readdir関数
+ディレクトリの中身を覗く関数です。``fs.readdir(path[, options], callback)``の形で使用します。
+
+今回の実装では、
+```TypeScript
+const postDirectory = path.join(process.cwd(), 'posts');
+```
+で取得した、記事のMarkdownファイルを入れるディレクトリの絶対パスを渡しています。
+
+``process.cwd()``では、そのスクリプトが実行された時のディレクトリを返します。これは、プロジェクトのルートになります。
+
+よって、パスを文字列のように操作できるpathモジュールを利用して、``process.cwd()``の後ろに``/posts``をくっつけてやると、記事を入れてるディレクトリの絶対パスが得られるというわけです。
+
+試しに、
+```JavaScript
+console.log(files);
+```
+というコードを関数のどこかに入れ込んでみましょう。
+```bash
+[ 'ISUCON14.md', 'about-this-blog-v1_0_0.md' ]
+```
+私の場合、このようなログが表示されました。
