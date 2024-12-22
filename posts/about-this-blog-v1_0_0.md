@@ -178,10 +178,12 @@ import Card from "@/src/app/component/Card"
 インポートエイリアスは変えないのでNoとします。
 
 **以上でNextのプロジェクトの作成が完了しました!**
+```bash
+npm run dev
+```
+で起動できますよ！
 
-結局すべてデフォルトの選択肢に落ち着きましたね。
-
-## 3.Markdownファイルの取得
+## 3.Markdownファイルのリスト取得
 ---
 最低限ブログとして動くためには、Markdownファイルをどこかしらのディレクトリに入れておいて、それを読み込むという事が必要になります。
 
@@ -361,6 +363,7 @@ const { data, content } = matter(fileContent);//メタデータと本文を抽�
 ```
 
 ### Promise.allという書き方
+---
 記事を書いている内に、``Promie.all``というものをこのブログを作る中で初めて知ったことを思い出したので。メモしておきます。
 
 [公式ドキュメント](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise/all)や[この動画](https://www.youtube.com/watch?v=ZOegyhySvPY&t=45s)などが非常に参考になりました．
@@ -393,6 +396,7 @@ const posts: Post[] = await Promise.all(
 果たして、私にPromise.allの真価を発揮させるほどの膨大な記事が書けるでしょうか。
 
 ### 余談：Timsortを知ったはなし
+---
 returnされる記事の配列は、日付順にソートされてて欲しいな…
 
 そう思って関数内に直接ソートを組み込んでしまいました。
@@ -408,3 +412,95 @@ const sortedPosts = posts.sort((postA, postB) =>
 、既に多少ソート済みな配列に対してとても良いパフォーマンスを出せるようです。
 
 参考記事：[高速な安定ソートアルゴリズム "TimSort" の解説 - Preferred Networks Research & Development](https://tech.preferred.jp/ja/blog/tim-sort/)
+
+## 4.リストの表示
+---
+記事のリストを取得する関数ができたので、これを使って **「記事一覧ページ」** を作ってみます。
+
+App Routerによるルーティングが行われるので、``/src/app/posts``というディレクトリを作り、その中に``page.jsx``を作るとその中身を``/posts``というURLで見れるようになります。
+
+とりあえず、記事の情報を引数に取るカードコンポーネントをつくって、並べてみようかと思います。
+
+コンポーネントはTypeScriptで書きます。その方が面倒が少ないので。
+
+``/src/components``みたいなディレクトリを作ります。ここにコンポーネントをまとめておきます。
+
+``/src/components/Card``みたいなディレクトリを作って、その中にカードコンポーネントと、その見た目を決めるCSSファイルを置きます。
+
+```TypeScript
+import styles from "./BlogCard.module.css"
+import Link from "next/link";
+
+interface FrontMatter {
+    title: string;
+    date: string;
+    description: string;
+}
+
+interface Post {
+    frontMatter: FrontMatter;
+    slug: string;
+    content: string;
+  }
+
+interface BlogCardProps {
+    post: Post;
+}
+
+const BlogCard = ({ post } :BlogCardProps) => {
+    return (
+        <Link href={`/blog/${post.slug}`} passHref>
+            <div className={styles.card}>
+                <p className={styles.date}>{post.frontMatter.date}</p>
+                <p className={styles.title}>{post.frontMatter.title}</p> 
+                <p className={styles.description}>{post.frontMatter.description}</p>
+            </div>
+        </Link>
+    );
+}
+
+export default BlogCard;
+```
+こんな感じ。
+
+カードの見た目をほかのところでも使うかも…とおもって名前が``BlogCard``となっています。
+
+簡単にコードの説明をしておくと、
+```TypeScript
+interface FrontMatter {
+    title: string;
+    date: string;
+    description: string;
+}
+
+interface Post {
+    frontMatter: FrontMatter;
+    slug: string;
+    content: string;
+  }
+
+interface BlogCardProps {
+    post: Post;
+}
+```
+このへんで記事に関する情報を受け取るための型（箱）を用意しています。この辺は、ひとつ前のセクションで書いた関数の返り値を元に作っています。
+
+そして、それをただ並べるだけ
+```TypeScript
+const BlogCard = ({ post } :BlogCardProps) => {
+    return (
+        <Link href={`/blog/${post.slug}`} passHref>
+            <div className={styles.card}>
+                <p className={styles.date}>{post.frontMatter.date}</p>
+                <p className={styles.title}>{post.frontMatter.title}</p> 
+                <p className={styles.description}>{post.frontMatter.description}</p>
+            </div>
+        </Link>
+    );
+}
+
+export default BlogCard;
+```
+これに、同じディレクトリ内に置いた``BlogCard.module.css``でCSSを当てることで、割と見栄えのいいカードが完成します。
+
+![カードコンポーネント](/article/about-this-blog-v1_0_0/2.png)
