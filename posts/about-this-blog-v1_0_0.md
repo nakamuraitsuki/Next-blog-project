@@ -249,7 +249,7 @@ export const getAllPosts = async (): Promise<Post[]> => {
 ```
 この関数を作った中で学んだことを書き連ねてみます。
 - **fsモジュール**
-- **非同期関数**
+- **gray-matter**
 
 あれ、思ったより少ないな…
 ### fsモジュール
@@ -286,6 +286,8 @@ try{
 ```
 の形でまとめています。
 
+以下にはこのプロジェクト内で使っている者のみ紹介しますが、ファイルに対する一通りの操作は実現できるようなので、是非[公式ドキュメント](https://nodejs.org/api/fs.html#callback-api)を覗いてみて下さい。
+
 #### readdir関数
 ディレクトリの中身を覗く関数です。``fs.readdir(path[, options], callback)``の形で使用します。
 
@@ -308,3 +310,101 @@ console.log(files);
 [ 'ISUCON14.md', 'about-this-blog-v1_0_0.md' ]
 ```
 私の場合、このようなログが表示されました。
+
+私の書いた記事のMarkdownファイルが配列として返ってきているのが確認できましたね。
+
+#### readFile関数
+
+ファイルの中身を読み取る関数です。``fs.readFile(path[, options], callback)``の形で使用します。
+今回の実装では、先ほどの``readdir``を使って読み取ったファイルの名前たち一つ一つに対して、``fileName``という変数に入れてから、
+```TypeScript
+//読み取るファイルの位置を特定
+const filePath = path.join(postDirectory, fileName);
+```
+として、中身を読みたいファイルへのパスを特定し、
+```TypeScript
+const fileContent = await fs.readFile(filePath, 'utf-8'); // 非同期読み込み
+```
+で読み取っています。
+
+### gray-matter
+---
+**[gray-matter](https://github.com/jonschlinkert/gray-matter)** は、ファイルのフロントマター（メタデータ）を解析するためのパッケージです．
+
+[公式のドキュメント](https://github.com/jonschlinkert/gray-matter)が非常にわかりやすいので，引用させていただきます．
+
+簡単に言うと，
+```html
+---
+title: Hello
+slug: home
+---
+<h1>Hello world!</h1>
+```
+を解析して
+```bash
+{
+  content: '<h1>Hello world!</h1>',
+  data: {
+    title: 'Hello',
+    slug: 'home'
+  }
+}
+```
+を返すというものです．
+
+ここにタイトルや日付を書いておくことで、記事の扱いが非常に楽になりますね。
+
+``readFile``関数で読み取ったMarkdownファイルの内容(fileContent)を，gray-matterでメタデータと内容に分離しているのが以下のコードです．
+```TypeScript
+const { data, content } = matter(fileContent);//メタデータと本文を抽出
+```
+
+### Promise.allという書き方
+記事を書いている内に、``Promie.all``というものをこのブログを作る中で初めて知ったことを思い出したので。メモしておきます。
+
+[公式ドキュメント](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise/all)や[この動画](https://www.youtube.com/watch?v=ZOegyhySvPY&t=45s)などが非常に参考になりました．
+
+``Promise.all``によって、並列処理っぽいことが可能になるという事ですね。
+
+Markdownファイルの取得の中では、「記事名の配列の要素一つ一つに対して、対応するファイルの中身を読み、メタデータとコンテンツに分離して``posts``配列に入れる」という作業で使っています．記事の数が膨大になってきたときに逐次処理だと少し時間がかかるところを、
+高速で行えるというメリットがあります。
+
+該当部分は以下のコードです。
+```TypeScript
+// 各ファイルの内容を処理
+const posts: Post[] = await Promise.all(
+  files.map(async (fileName) => {
+    const slug = fileName.replace(/\.md$/, '');//.mdを消して名前だけにする(slug)
+    const filePath = path.join(postDirectory, fileName);//読み取るファイルの位置を特定
+    const fileContent = await fs.readFile(filePath, 'utf-8'); // 非同期読み込み
+    const { data, content } = matter(fileContent);//メタデータと本文を抽出
+
+    //returnの内容がpostsに入れられていく
+    return {
+      frontMatter: data as FrontMatter,
+      slug,
+      content,
+    };
+  })
+);
+```
+
+果たして、私にPromise.allの真価を発揮させるほどの膨大な記事が書けるでしょうか。
+
+### 余談：Timsortを知ったはなし
+returnされる記事の配列は、日付順にソートされてて欲しいな…
+
+そう思って関数内に直接ソートを組み込んでしまいました。
+```TypeScript
+//日付順にソート
+const sortedPosts = posts.sort((postA, postB) =>
+  new Date(postA.frontMatter.date) > new Date(postB.frontMatter.date) ? -1 : 1
+);
+```
+そして、ふと思ったのです。これの時間計算量はどのくらいなんだろうと。
+
+結論から言うと、平均で **O(n logn)** でした。マージソートに一部挿入ソートを組み込むことによって
+、既に多少ソート済みな配列に対してとても良いパフォーマンスを出せるようです。
+
+参考記事：[高速な安定ソートアルゴリズム "TimSort" の解説 - Preferred Networks Research & Development](https://tech.preferred.jp/ja/blog/tim-sort/)

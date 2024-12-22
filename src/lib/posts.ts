@@ -24,7 +24,6 @@ export const getAllPosts = async (): Promise<Post[]> => {
   try {
     // ディレクトリ内のファイルを非同期で読み取る
     const files = await fs.readdir(postDirectory);
-    console.log(files);
     // 各ファイルの内容を処理
     const posts: Post[] = await Promise.all(
       files.map(async (fileName) => {
