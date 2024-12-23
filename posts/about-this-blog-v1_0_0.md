@@ -189,6 +189,8 @@ npm run dev
 
 ひとまずは、「記事一覧ページ」のための記事の情報配列を得る関数の完成を目指してみます。
 
+まだファイルの場所の整理などはしていませんが、とりあえず記事の取得に関する関数は``/src/lib/posts.ts``に書くこととします。
+
 ### 記事の全件取得をする関数
 ---
 まず、現時点でこのサイトで動いているものを載せておきます。
@@ -417,15 +419,17 @@ const sortedPosts = posts.sort((postA, postB) =>
 ---
 記事のリストを取得する関数ができたので、これを使って **「記事一覧ページ」** を作ってみます。
 
-App Routerによるルーティングが行われるので、``/src/app/posts``というディレクトリを作り、その中に``page.jsx``を作るとその中身を``/posts``というURLで見れるようになります。
+App Routerによるルーティングが行われるので、``/src/app/blog``というディレクトリを作り、その中に``page.jsx``を作るとその中身を``/blog``というURLで見れるようになります。
 
 とりあえず、記事の情報を引数に取るカードコンポーネントをつくって、並べてみようかと思います。
 
-コンポーネントはTypeScriptで書きます。その方が面倒が少ないので。
+### カードコンポーネント
+---
+コンポーネントはTypeScriptで書きます。その方が面倒が少ないと思ったのでそうしました。
 
 ``/src/components``みたいなディレクトリを作ります。ここにコンポーネントをまとめておきます。
 
-``/src/components/Card``みたいなディレクトリを作って、その中にカードコンポーネントと、その見た目を決めるCSSファイルを置きます。
+``/src/components/BlogCard``みたいなディレクトリを作って、その中にカードコンポーネントと、その見た目を決めるCSSファイルを置きます。
 
 ```TypeScript
 import styles from "./BlogCard.module.css"
@@ -483,9 +487,11 @@ interface BlogCardProps {
     post: Post;
 }
 ```
+TypeScriptなので、厳密に型を決めなくてはなりません。
+
 このへんで記事に関する情報を受け取るための型（箱）を用意しています。この辺は、ひとつ前のセクションで書いた関数の返り値を元に作っています。
 
-そして、それをただ並べるだけ
+そして、コンポーネント自体はそれを並べるだけ。
 ```TypeScript
 const BlogCard = ({ post } :BlogCardProps) => {
     return (
@@ -504,3 +510,103 @@ export default BlogCard;
 これに、同じディレクトリ内に置いた``BlogCard.module.css``でCSSを当てることで、割と見栄えのいいカードが完成します。
 
 ![カードコンポーネント](/article/about-this-blog-v1_0_0/2.png)
+
+### カードリストコンポーネント
+---
+先ほど作ったカードを素直に一覧ページに並べてもいいのですが、
+どうせなら配列を渡してリストを返すようにした方が後々いい気がしたので、
+その部分をコンポーネント化してみます。
+
+``/src/components/BlogCardList``みたいなディレクトリを作りまして。その中に先ほどと同様に書き連ねていきます。
+```TypeScript
+import styles from "./BlogCardList.module.css"
+import BlogCard from "../BlogCard/BlogCard"
+
+interface FrontMatter {
+    title: string;
+    date: string;
+    description: string;
+}
+
+interface Post {
+    frontMatter: FrontMatter;
+    slug: string;
+    content: string;
+  }
+
+interface BlogCardListProps {
+    posts: Post[];
+}
+
+const BlogCardList = ({ posts } :BlogCardListProps) => {
+    return (
+        <div className={styles.cardList}>
+            {posts.map((post) => (
+                <div key={post.slug}>
+                    <BlogCard post={post}/>
+                </div>
+            ))}
+        </div>
+    );
+}
+
+export default BlogCardList;
+```
+やってることはシンプルで、配列を受け取って、その要素一つ一つを``BlogCard``に籠めています。
+
+### 一覧ページ
+---
+〆に、一覧ページを作っていきましょう。
+
+``/src/app/blog/page.jsx``の中で、記事の配列を取ってきて、さっき作ったカードリストに渡して表示します。
+
+```TypeScript
+import styles from "./blog.module.css"
+import { getAllPosts } from "@/lib/posts"
+import BlogCardList from "@/components/BlogCardList/BlogCardList";
+
+export default async function Blog() {
+    const posts = await getAllPosts();
+    return (
+      <div>
+        <h1 className={styles.title}>記事一覧</h1>
+        <div className={styles.List}>
+            <BlogCardList posts={posts}/>
+        </div>
+      </div>
+    );
+}
+```
+こんな感じ。
+
+## 5.記事の内容取得と、HTML変換
+---
+記事一覧ページが出来たので、
+リストのカードを押したらその記事の内容がみれるようにしたいと思います。
+
+既に先ほど作ったカードの中にその仕掛けはしてあります。
+```TypeScript
+const BlogCard = ({ post } :BlogCardProps) => {
+    return (
+        <Link href={`/blog/${post.slug}`} passHref>
+            <div className={styles.card}>
+                <p className={styles.date}>{post.frontMatter.date}</p>
+                <p className={styles.title}>{post.frontMatter.title}</p> 
+                <p className={styles.description}>{post.frontMatter.description}</p>
+            </div>
+        </Link>
+    );
+}
+```
+``Link``タグが使われていますね。これによって、カードを押すと``/blog/[post.slug]``にページ遷移できます。
+
+[post.slug]は記事固有の部分です。
+
+まずは、``/src/app/blog/``の中に、``[slug]``というディレクトリを作ります。
+
+### パスの生成
+---
+記事の数は増えたり減ったりするので、それぞれの記事の内容のURL``/blog/[post.slug]``は全部の記事を取得して、
+それに応じて作っておく必要があります。
+
+そこで使うのが、``generateStaticParams()``です。この関数の返り値としたものがパスとして生成されます。
