@@ -1,19 +1,12 @@
 import { notFound } from "next/navigation";
 import styles from "./slug.module.css"
 import Layout from "../../../components/Layout/Layout"
-import { getAllPosts, getPostBySlug } from "@/lib/posts"
+import { getPostBySlug } from "@/lib/posts"
 import { markdownToHTML } from "@/lib/markdown";
 import 'highlight.js/styles/atom-one-dark.css';
 
 interface PostProps {
     params: Promise<{ slug: string }>
-}
-
-export async function generateStaticParams() {
-    const posts = await getAllPosts();
-    return posts.map((post) => ({
-        slug: post.slug,
-    }));
 }
 
 export default async function Slug(props: PostProps) {
