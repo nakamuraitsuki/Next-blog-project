@@ -153,11 +153,10 @@
 
 /* インラインコード */
 .markdown p code {
-    background-color: #f8fafd;
+    background-color: #ffffff;
     padding: 2px 4px;
     border-radius: 4px;
     font-size: 1rem;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 
 @media (prefers-color-scheme: dark) {

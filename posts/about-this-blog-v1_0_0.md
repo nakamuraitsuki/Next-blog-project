@@ -24,11 +24,11 @@ ISUCON14の中で、たくさん学び、たくさん感情が動きました。
 
 そうしてこのブログが誕生しました。
 
-## 1.何を使ってブログを作るか？
+## 1. 何を使ってブログを作るか？
 ---
 最初にやったのは **「どうやってブログを作るか？」** を考えることです。
 
-あーだこーだ考えた結果、結局Next+Markdownという形に落ち着きました。採択理由は、私の所属している[サークルのブログ](https://blog.maximum.vc/)でも採用されている形式で、なじみがあったためです。
+あーだこーだ考えた結果、結局Next+Markdownという形に落ち着きました。採択理由は、私の所属しているサークルのサイトでも採用されている形式で、なじみがあったためです。
 
 開発方法を調べている中で、**Astro**というものを知ったので、少しまとめておきます。
 
@@ -55,7 +55,7 @@ SPAはJavaScriptで差し替えをしているので、**ページ遷移がか�
 #### Astroのその他メリット
 確かに高速であることも大きなメリットですが、私個人としてはそれ以上に心惹かれる要素がAstroにはありました。
 
-それは**markdownの扱いがとてもカンタンそうだった**ことです。軽く調べただけですが、[この記事](https://docs.astro.build/ja/tutorial/2-pages/2/)とかを見ると、すごくラクそう！
+それは**markdownの扱いがとてもカンタンそうだった**ことです。軽く調べただけですが、[『初めてのMarkdownによるブログ記事 | Docs』](https://docs.astro.build/ja/tutorial/2-pages/2/)とかを見ると、すごくラクそう！
 
 #### なぜAstroを選ばなかったのか
 ここまでの記述を見ると、このブログで実現したいことはすべてAstroで実現できそうです。
@@ -78,9 +78,9 @@ NextでMarkdownを扱うには**ファイルを取得するロジックや、rem
 
 結局苦戦するなら、Astroでよかったかなぁ…　と思ったりして。
 
-## 2.Nextプロジェクトの作成
+## 2. Nextプロジェクトの作成
 ---
-[このサイト](https://nextjs-ja-translation-docs.vercel.app/docs/getting-started)とかを参考に、プロジェクトを作成しました。
+[Next.jsのドキュメント](https://nextjs-ja-translation-docs.vercel.app/docs/getting-started)とかを参考に、プロジェクトを作成しました。
 
 コマンド1つで自動セットアップ！
 ```bash
@@ -140,7 +140,7 @@ App Routerって何だ？　なんかおすすめらしいです。
 
 デフォルトの選択肢がYesなのでYesにしちゃいましたが、導入の必要はなかったかもしれないなと感じています。手に余るものを入れてしまったという印象。
 
-[公式ドキュメント](https://nextjs.org/docs)
+[Next.jsの公式ドキュメント](https://nextjs.org/docs)
 
 ```bash
 ? Would you like to use Turbopack for `next dev`? › No / Yes
@@ -183,7 +183,7 @@ npm run dev
 ```
 で起動できますよ！
 
-## 3.Markdownファイルのリスト取得
+## 3. Markdownファイルのリスト取得
 ---
 最低限ブログとして動くためには、Markdownファイルをどこかしらのディレクトリに入れておいて、それを読み込むという事が必要になります。
 
@@ -262,7 +262,7 @@ export const getAllPosts = async (): Promise<Post[]> => {
 
 fsは**F**ile **s**ystemの略で、Node.jsの標準モジュールです。
 
-**[公式ドキュメント](https://nodejs.org/api/fs.html#fsreadfilepath-options-callback)** やネットに転がっている記事が大変参考になりました。
+**[Node.jsの公式ドキュメント](https://nodejs.org/api/fs.html#fsreadfilepath-options-callback)** やネットに転がっている記事が大変参考になりました。
 
 まずはインポートから。
 ```TypeScript
@@ -290,7 +290,7 @@ try{
 ```
 の形でまとめています。
 
-以下にはこのプロジェクト内で使っている者のみ紹介しますが、ファイルに対する一通りの操作は実現できるようなので、是非[公式ドキュメント](https://nodejs.org/api/fs.html#callback-api)を覗いてみて下さい。
+以下にはこのプロジェクト内で使っている者のみ紹介しますが、ファイルに対する一通りの操作は実現できるようなので、是非[Node.jsの公式ドキュメント](https://nodejs.org/api/fs.html#callback-api)を覗いてみて下さい。
 
 #### readdir関数
 ディレクトリの中身を覗く関数です。``fs.readdir(path[, options], callback)``の形で使用します。
@@ -335,7 +335,7 @@ const fileContent = await fs.readFile(filePath, 'utf-8'); // 非同期読み込�
 ---
 **[gray-matter](https://github.com/jonschlinkert/gray-matter)** は、ファイルのフロントマター（メタデータ）を解析するためのパッケージです．
 
-[公式のドキュメント](https://github.com/jonschlinkert/gray-matter)が非常にわかりやすいので，引用させていただきます．
+[gray-matterの公式ドキュメント](https://github.com/jonschlinkert/gray-matter)が非常にわかりやすいので，引用させていただきます．
 
 簡単に言うと，
 ```html
@@ -368,7 +368,7 @@ const { data, content } = matter(fileContent);//メタデータと本文を抽�
 ---
 記事を書いている内に、``Promie.all``というものをこのブログを作る中で初めて知ったことを思い出したので。メモしておきます。
 
-[公式ドキュメント](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise/all)や[この動画](https://www.youtube.com/watch?v=ZOegyhySvPY&t=45s)などが非常に参考になりました．
+[MDN Web DocsのJavaScriptリファレンス](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise/all)や[この動画](https://www.youtube.com/watch?v=ZOegyhySvPY&t=45s)などが非常に参考になりました．
 
 ``Promise.all``によって、並列処理っぽいことが可能になるという事ですね。
 
@@ -415,7 +415,7 @@ const sortedPosts = posts.sort((postA, postB) =>
 
 参考記事：[高速な安定ソートアルゴリズム "TimSort" の解説 - Preferred Networks Research & Development](https://tech.preferred.jp/ja/blog/tim-sort/)
 
-## 4.リストの表示
+## 4. リストの表示
 ---
 記事のリストを取得する関数ができたので、これを使って **「記事一覧ページ」** を作ってみます。
 
@@ -579,7 +579,7 @@ export default async function Blog() {
 ```
 こんな感じ。
 
-## 5.記事の内容取得と、HTML変換
+## 5. 記事の内容取得と、HTML変換
 ---
 記事一覧ページが出来たので、
 リストのカードを押したらその記事の内容がみれるようにしたいと思います。
@@ -604,9 +604,233 @@ const BlogCard = ({ post } :BlogCardProps) => {
 
 まずは、``/src/app/blog/``の中に、``[slug]``というディレクトリを作ります。
 
+### 記事の内容取得
+---
+記事の``[slug]``を元に、記事の内容を取得する関数を作りましょう。
+>とりあえず記事の取得に関する関数は``/src/lib/posts.ts``に書くこととします。
+
+先ほどこのように言ったので、この関数も``/src/lib/posts.ts``に追記することにしました。
+
+もう少しファイルの置き場所や関数の分け方を考えても良かったかなと反省しています。
+
+``[slug]``をもとに記事を取得する関数は、全記事取得関数を少し改変するだけで実装できます。
+
+```TypeScript
+// 特定の記事の内容を取得
+export const getPostBySlug = async (slug: string): Promise<Post | null> => {
+  try {
+    // ファイルのパスを生成
+    const filePath = path.join(postDirectory, `${slug}.md`);
+
+    // ファイルが存在するか確認
+    try {
+      await fs.access(filePath); // ファイルの存在を確認
+    } catch {
+      return null; // 存在しない場合はnullを返す
+    }
+
+    // ファイル内容を非同期で読み取る
+    const fileContent = await fs.readFile(filePath, 'utf-8');
+    const { data, content } = matter(fileContent);
+
+    return {
+      frontMatter: data as FrontMatter,
+      slug,
+      content,
+    };
+  } catch (error) {
+    console.error(`Error reading post by slug: ${slug}`, error);
+    return null; // エラー時はnullを返す
+  }
+};
+```
+URLを手打ちされて、存在しない記事に対する要求が飛ぶ可能性も考慮しなくてはなりませんが、それ以外は``getAllPosts()``と
+ほとんど変わらないと思います。
+
+### MarkdownをHTMLに変換
+---
+今のままだと、
+![直でMarkdownが表示される](/article/about-this-blog-v1_0_0/3.png)
+このようにMarkdown記法が上手く反映されていない状態になってしまいます。
+
+MarkdownをHTMLに変換する必要があります。
+
+今回は、Unifiedという構文解析フレームワークを使ってMarkdown→HTMLの関数を実装していきます。
+
+[Unifiedの公式ドキュメント](https://unifiedjs.com/)を見ながら実装。
+
+``/src/lib/markdown.ts``の中に関数を書き込みます。
+```TypeScript
+import { unified } from 'unified'
+import remarkParse from 'remark-parse'
+import remarkRehype from 'remark-rehype'
+import rehypeStringify from 'rehype-stringify'
+import remarkGfm from 'remark-gfm';
+import rehypeHighlight from 'rehype-highlight';
+
+export async function markdownToHTML(content: string) {
+    const result = await unified()
+        .use(remarkParse)
+        .use(remarkGfm)
+        .use(remarkRehype)
+        .use(rehypeHighlight)
+        .use(rehypeStringify)
+        .process(content);
+
+    return result.toString();
+}
+```
+これでHTMLに変換した結果が返ってきます。
+
+あとは、``/src/app/blog/[slug]/page.jsx``の中で、
+
+1. 現在見ようとしている記事のslugを取得
+
+2. slugをもとに``getPostBySlug``関数で内容を取得
+
+3. 取得した文字列を``markdowToHTML``に渡してHTMLに変換
+
+4. 変換した内容を表示
+
+を実装すればいいですね。
+
 ### パスの生成
 ---
-記事の数は増えたり減ったりするので、それぞれの記事の内容のURL``/blog/[post.slug]``は全部の記事を取得して、
-それに応じて作っておく必要があります。
+記事は更新頻度がそこまで高くないので、**SSG(Static Site Generator)** を使ったほうが良いのではないかと考えました。
 
-そこで使うのが、``generateStaticParams()``です。この関数の返り値としたものがパスとして生成されます。
+**SSR(Server-Side Rendering)** を使う場合はこの手順は必要ないです。
+
+SSGは静的なファイルを配信するものなので、利用者が``/blog/[slug]``に訪れたときに``[slug]``に応じて
+対処するのではなく、事前にすべての``[slug]``の内容を用意しておきたいです。
+
+そこで使うのが``generateStaticParams()``です。この関数の返り値としたものがパスとして生成されます。
+
+使い方については[Next.jsの公式ドキュメント](https://nextjs.org/docs/app/api-reference/functions/generate-static-params)を
+参考にしました。TypeScriptの方で書いています。
+
+```TypeScript
+//先ほど自分で作った記事取得関数
+import { getAllPosts } from "@/lib/posts";
+
+export async function generateStaticParams() {
+    const posts = await getAllPosts();
+    return posts.map((post) => ({
+        slug: post.slug,
+    }));
+}
+```
+
+これでOKです。
+
+``npm run dev``で見るときには開発モード（SSR）で表示されてしまうので効果が実感できないかもしれません。
+
+ビルド時にこの関数が読み取られます。
+
+### 表示内容作成
+---
+〆に、``/src/app/blog/[slug]/page.jsx``に書き込んでいきます。
+```TypeScript
+import { notFound } from "next/navigation";
+import styles from "./slug.module.css"
+import Layout from "../../../components/Layout/Layout"
+import { getAllPosts, getPostBySlug } from "@/lib/posts"
+import { markdownToHTML } from "@/lib/markdown";
+import 'highlight.js/styles/atom-one-dark.css';
+
+interface PostProps {
+    params: Promise<{ slug: string }>
+}
+
+export async function generateStaticParams() {
+    const posts = await getAllPosts();
+    return posts.map((post) => ({
+        slug: post.slug,
+    }));
+}
+
+export default async function Slug(props: PostProps) {
+    const params = await props.params;
+    const { slug } = params;
+    const post = await getPostBySlug(slug);
+
+    if(!post) {
+        notFound();
+    }
+
+    const html = await markdownToHTML(post.content);
+
+    return (
+        <Layout>
+            <h1 className={styles.hero}>{post.frontMatter.title}</h1>
+            <div className={styles.contents}>
+                <p className={styles.date}>{post.frontMatter.date}</p>
+                <div
+                    dangerouslySetInnerHTML={{ __html: html }}    
+                />
+            </div>
+        </Layout>
+    )
+}
+```
+``dangerouslySetInnerHTML={{ __html: html }``という書き方にはXSS攻撃の可能性があるようです。
+
+（参考）[【React】dangerouslySetInnerHTMLの危険性と安全な使用方法 #React - Qiita](https://qiita.com/ushi_osushi/items/2c09e2d3a1f3db63e5a3)
+
+ですが、このサイトにおいては記事を書くのは僕だけなので、一旦放置。
+
+これで、``/blog/ISUCON14``にアクセスすると、その記事がみれるようになったりしました。
+
+## 6. Markdownから取得したHTMLにCSSを当てる
+---
+![いまいち…](/article/about-this-blog-v1_0_0/4.png)
+表示することはできましたが、なんだかイマイチですね。
+
+画像も飛び出してしまっています。
+
+Markdownから取得してきたHTMLにCSSを当てて、見た目を整えてあげましょう。
+
+先ほどの
+```JavaScript
+<div
+    dangerouslySetInnerHTML={{ __html: html }}    
+/>
+```
+のところに、
+```JavaScript
+<div
+    className={styles.markdown}
+    dangerouslySetInnerHTML={{ __html: html }}    
+/>
+```
+と言うような変更を加えます。これで、
+``./slug.module.css``の中に、markdownの内容に向けたCSSを書いてあげると見た目を整えられます。
+
+僕のやり方ですが、``/src/lib/markdown.ts``に書いたHTML変換関数の中に
+```TypeScript
+console.log(result);
+```
+みたいなことを書いて、ログでMarkdown記法がどういうHTMLに変換されてるか確認しながらCSSを書きました。
+
+例えば、h1タグに翻訳されているところにCSSを当てたかったら
+```CSS
+.markdown h1 {
+    width: 100%;
+    margin-top: 24px;
+}
+```
+と書きます。
+
+一通りのMarkdown記法に対応したかったので、chatGPTに「Markdown記法のテストをしたいので、記法を網羅したファイルを作ってください」という風にお願いしてテストファイルを吐かせました。
+
+そして完成したのが、今皆さんがご覧になっているこのページというわけです。
+
+## おわりに
+---
+自己紹介ページや、トップページについては目新しいことは無かったので割愛します。
+
+記事が増えたときに向けてのページネーション、
+スマホサイズへの対応、
+コードブロックのコピーボタンなど
+まだまだ改善点てんこ盛りですが、これからも日々精進したいと思っております。
+
+最後までお付き合いいただき、ありがとうございました
