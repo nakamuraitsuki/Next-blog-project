@@ -18,6 +18,12 @@
     transition: border-color 0.2s ease;
 }
 
+@media (max-width: 376px) {
+    .card {
+        width: 320px;
+    }
+}
+
 .card:hover {
     border: 1.5px solid #fce27c;
 }
@@ -41,6 +47,12 @@
     font-weight: bold;
     margin: 12px 6px;
     border-bottom: 2px solid #fce27c;
+}
+
+@media (max-width: 376px) {
+    .title {
+        font-size: 1rem;
+    }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -71,6 +83,12 @@
     word-wrap: break-word;
     word-break: break-word;
 }
+
+@media (max-width: 376px) {
+    .description {
+        font-size: 0.75rem;
+    }
+} 
 
 @media (prefers-color-scheme: dark) {
     .description {
