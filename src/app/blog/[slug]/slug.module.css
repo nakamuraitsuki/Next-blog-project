@@ -48,7 +48,8 @@
 /* markdown タイトル関係 */
 .markdown h1, 
 .markdown h2, 
-.markdown h3 {
+.markdown h3,
+.markdown h4 {
     color: #6f5d00;
 }
 
@@ -66,10 +67,15 @@
     margin: 16px 0;
 }
 
+.markdown h4 {
+    margin-top: 16px;
+}
+
 @media (prefers-color-scheme: dark) {
     .markdown h1,
     .markdown h2,
-    .markdown h3 {
+    .markdown h3,
+    .markdown h4 {
         color: #f3d500;
     }
 }
@@ -122,6 +128,7 @@
 
 /* 画像 */
 .markdown img {
+    width:100%;
     display: block;
     margin: 12px auto;
 }
@@ -146,11 +153,10 @@
 
 /* インラインコード */
 .markdown p code {
-    background-color: #f8fafd;
+    background-color: #ffffff;
     padding: 2px 4px;
     border-radius: 4px;
     font-size: 1rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -161,8 +167,9 @@
 }
 
 .markdown pre code {
+    margin: 12px 0;
     font-size: 1rem;
-    line-height: 1.5rem;
+    line-height: 1rem;
     border-radius: 6px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -170,7 +177,7 @@
 @media (prefers-color-scheme: dark) {
     .markdown pre code {
         background-color: #2c2c2c;
-        color: #f3d500;
+        border: 0.5px solid #f3d500;
     }
 }
 
