@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import Head from 'next/head';
+import { Metadata } from "next";
 import styles from "./slug.module.css"
 import Layout from "../../../components/Layout/Layout"
 import { getAllPosts, getPostBySlug } from "@/lib/posts"
@@ -17,6 +17,17 @@ export async function generateStaticParams() {
     }));
 }
 
+export const generateMetadata = async (props: PostProps): Promise<Metadata> => {
+    const params = await props.params;
+    const { slug } = params;
+    const post = await getPostBySlug(slug);
+  
+    return {
+      title: `${post?.frontMatter.title}【しゃべる葦原】`,
+      description: `${post?.frontMatter.description}`,
+    };
+}
+
 export default async function Slug(props: PostProps) {
     const params = await props.params;
     const { slug } = params;
@@ -30,12 +41,6 @@ export default async function Slug(props: PostProps) {
 
     return (
         <Layout>
-            <Head>
-                <title>{post.frontMatter.title || 'しゃべる葦原'}</title>
-                <meta name="description" content={post.frontMatter.description || ''} />
-                <meta property="og:title" content={post.frontMatter.title || 'しゃべる葦原'} />
-                <meta property="og:description" content={post.frontMatter.description || ''} />
-            </Head>
             <h1 className={styles.hero}>{post.frontMatter.title}</h1>
             <div className={styles.contents}>
                 <p className={styles.date}>{post.frontMatter.date}</p>
