@@ -25,6 +25,11 @@ export const generateMetadata = async (props: PostProps): Promise<Metadata> => {
     return {
       title: `${post?.frontMatter.title}【しゃべる葦原】`,
       description: `${post?.frontMatter.description}`,
+      openGraph: {
+        title: `${post?.frontMatter.title}【しゃべる葦原】`,
+        description: post?.frontMatter.description,
+        url: `https://your-site.com/post/${slug}`, // 共有されるURLを設定
+      }
     };
 }
 
