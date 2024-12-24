@@ -5,6 +5,18 @@
     color: #6f5d00;
 }
 
+@media (max-width: 376px) {
+    .hero {
+        font-size: 1.75rem;
+    }
+} 
+
+@media (max-width: 321px) {
+    .hero {
+        font-size: 1.5rem;
+    }
+}
+
 @media (prefers-color-scheme: dark) {
     .hero {
         color: #f3d500;
@@ -82,8 +94,21 @@
 
 /* 段落 */
 .markdown p {
-    font-size: 16px;
+    font-size: 1rem;
     line-height: 2rem;
+}
+
+@media (max-width: 426px) {
+    .markdown p {
+        line-height: 1.25rem;
+    }
+}
+
+@media (max-width: 376px) {
+    .markdown p {
+        font-size: 0.875rem;
+        line-height:1rem;
+    }
 }
 
 .markdown hr {
@@ -143,6 +168,12 @@
     background-color: #ffffff;
 }
 
+@media (max-width: 426px) {
+    .markdown blockquote {
+        margin: 8px 8px;
+    }
+}
+
 @media (prefers-color-scheme: dark) {
     .markdown blockquote {
         border-left: 4px solid #f3d500;
@@ -157,6 +188,12 @@
     padding: 2px 4px;
     border-radius: 4px;
     font-size: 1rem;
+}
+
+@media (max-width: 376px) {
+    .markdown p code {
+        font-size: 0.875rem;
+    }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -174,6 +211,13 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+@media (max-width: 426px) {
+    .markdown pre code {
+        margin: 8px 0;
+        font-size: 0.75rem;
+    }
+}
+
 @media (prefers-color-scheme: dark) {
     .markdown pre code {
         background-color: #2c2c2c;
@@ -186,6 +230,12 @@
     width: 100%;
     border-collapse: collapse;
     margin: 20px 0;
+}
+
+@media (max-width: 426px) {
+    .markdown table {
+        margin: 8px 0;
+    }
 }
 
 .markdown td,

@@ -9,6 +9,12 @@
     transition: transform 0.2s ease;
 }
 
+@media (max-width: 376px) {
+    .button {
+        min-width: 100px;
+    }
+}
+
 .button:hover {
     transform: translateY(-0.5px); /* 要素を少し上に移動 */
     box-shadow: 0 2px 4.5px rgba(0, 0, 0, 0.2); /* ホバー時に強調された影 */
@@ -34,6 +40,12 @@
     font-weight: bold;
     font-size: 1.25rem;
     text-align: center;
+}
+
+@media (max-width: 376px) {
+    .text {
+        font-size: 0.875rem;
+    }
 }
 
 @media (prefers-color-scheme: dark) {

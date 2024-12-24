@@ -1,5 +1,5 @@
 .container {
-    padding: 0 64px;
+    padding: 0 auto;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -25,6 +25,12 @@
     width: 100%;
     margin: 8px auto;
     color: #6f5d00;
+}
+
+@media (max-width: 376px) {
+    .title {
+        font-size: 1.25rem;
+    }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -69,6 +75,13 @@
     background-color: #fff9ee;
     border: 1px solid #eee2bc;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 426px) {
+    .contents {
+        gap: 24px;
+        line-height:1.25rem;
+    }
 }
 
 @media (prefers-color-scheme: dark) {
