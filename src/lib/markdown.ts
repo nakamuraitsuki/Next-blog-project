@@ -6,7 +6,7 @@ import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeSlug from 'rehype-slug';
 import { visit } from 'unist-util-visit'
-import { Heading, PhrasingContent } from 'mdast'
+import { Heading } from 'mdast'
 import { fromMarkdown } from 'mdast-util-from-markdown';
 import { slug } from 'github-slugger';
 
