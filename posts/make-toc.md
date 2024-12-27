@@ -1,0 +1,335 @@
+---
+title: '記事に目次を生やした話'
+date: '2024-12-27'
+description: '記事を見返し易くすべく、見出しに飛べる目次を生やそう'
+---
+
+## 概要
+---
+目次を作ろうと決意。
+
+前回の記事を書いていて思ったのですが、備忘録として、思い出しながら記事を書いているせいで内容がとっ散らかってしまうんですよね。
+
+なので、目次を追加して未来の自分が読んだ時に必要な情報だけをピック出来るようにします。
+
+その過程をメモしていきます。
+
+## そもそもどうやってMarkdown→HTMLを実現しているか
+---
+調べていると、そもそもどうやってMarkdownからHTMLに変換しているかを知っていた方がよさそうだと感じてきました。
+
+Unified.jsの公式ドキュメントの[イントロページ](https://unifiedjs.com/learn/guide/introduction-to-unified/)を確認すると、仕組みについての記述がありました。
+
+要約すると、以下の3つの手順が行われるとのこと、
+1. **parse：「構文木」への変換**
+
+（Markdown→mdastをremarkで行う。HTML→hastをrehypeで行う。）
+
+2. **transform：構文木に対して操作をする（idつけたりなんだかんだ）**
+
+3. **stringify：構文木を元の文章に戻す（mdast→Markdown,hast→HTML）**
+
+transformの段階で、構文木を別の文法の構文木に変換することで、Markdown→HTMLのような変換を可能にしているらしい。
+
+言語を変換しない用途もあるってことだね。
+
+## 見出しにidを付与する
+---
+様々な記事を読んでいて、いずれにしろまずは見出しにidをふるところから始めるべきっぽい。
+
+
+``remark-slug``を使っている記事がよく見られたので、公式ドキュメントを覗いてみると
+>Deprecated: this package is no longer maintained. Please use remark-rehype to move from remark (markdown) to rehype (HTML) and then replace remark-slug with rehype-slug.
+
+どうやら非推奨らしい。代わりに``rehype-slug``を使ってねと言われています。
+
+先ほど学んだパース方法に照らすと、Markdownの構文木にidをふるのではなく、HTMLの構文木にidを振るようにしたという事でしょうか。
+
+とりあえず``rehype-slug``を適用して結果を見てみましょうか。
+
+まずはインストール
+```bash
+npm install rehype-slug
+```
+
+そして適用。
+```TypeScript
+const result = await unified()
+.use(remarkParse)
+.use(remarkGfm)
+.use(remarkRehype)
+.use(rehypeHighlight)
+.use(rehypeSlug)//id付与
+.use(rehypeStringify)
+.process(content);
+console.log(result);
+```
+ログも吐くようにしているので、さっそく見てみましょう。
+```bash
+'<h2 id="概要">概要</h2>\n' +
+'<hr>\n' +
+'<p>12月8日に行われたISUCON14に、学生チームMaxipusとして<a href="https://github.com/yukikamome316">yukikamome316</a>・<a href="https://github.com/batora9">Batrachotoxin</a>と共に参加しました。</p>\n' +
+'<p>私は、技術も知識も相当不足した状態での参加だったので、この記事の中では練習や本番の中で思ったことや、学べたことを中心に書いていこうと思っています。当日の技術的な話やスコアの話はあまり書くつもりがないのでご了承ください。</p>\n' +
+'<h2 id="参加してよかったと思えた事柄">『参加してよかった』と思えた事柄</h2>\n' +
+```
+概要のところに``id="概要"``が追加されるなどしていますね。
+
+## 見出しの配列を取得する
+---
+次に、それぞれの見出しの情報を抽出して、配列にしてみます。
+
+この配列がうまく手に入れば、先ほど付与したidと組み合わせることで、好きな場所に好きなように目次を作れるようになります！（サイドに置くもよし、先頭に置くもよし、なんでもあり）
+
+見出し情報を集めてくる技術も色々見つけられましたが、今回は[**unist-util-visit**](https://github.com/syntax-tree/unist-util-visit)を使ってみます。
+
+[githubのREADME](https://github.com/syntax-tree/unist-util-visit)に丁寧な説明が書いてありました。
+
+```TypeScript
+import {fromMarkdown} from 'mdast-util-from-markdown'
+import {visit} from 'unist-util-visit'
+
+const tree = fromMarkdown('Some *emphasis*, **strong**, and `code`.')
+
+visit(tree, 'text', function (node, index, parent) {
+  console.log([node.value, parent ? parent.type : index])
+})
+```
+こうやって使うらしいです。ちなみに上記コードの出力結果はこれらしい。
+```bash
+[ 'Some ', 'paragraph' ]
+[ 'emphasis', 'emphasis' ]
+[ ', ', 'paragraph' ]
+[ 'strong', 'strong' ]
+[ ', and ', 'paragraph' ]
+[ '.', 'paragraph' ]
+```
+使い方としては、
+```TypeScript
+import {visit} 'unist-util-visit'
+
+visit(対象の構文木,対象のノードタイプ,訪れたときに行う関数)
+```
+という感じらしい。
+
+さっそく取り入れてみます。すでに作ってある``markdownToHTML``関数で、``visit``で作った目次配列も返り値に含めるようにしてみます。
+
+既にmdastへの変換はremark-parseで行っていますが、型の安全性のために上記の方法をそのまま使っていきます。
+
+まずはgithubのREADMEをみながらインストール。
+```bash
+npm install mdast-util-from-markdown;
+npm install unist-util-visit;
+npm install @types/mdast;
+```
+
+TypeScriptで書いているので、Headingなどの型も拝借しつつ…
+```TypeScript
+import { visit } from 'unist-util-visit'
+import { Heading, PhrasingContent } from 'mdast'
+import { fromMarkdown } from 'mdast-util-from-markdown';
+
+// 目次の型
+interface TableOfContentsItem {
+    level: number;
+    text: string;
+};
+
+interface MarkdownContent {
+    toc: TableOfContentsItem[];
+    html: string;
+}
+
+export async function markdownToHTML(content: string): Promise<MarkdownContent> {
+    const tableOfContents: TableOfContentsItem[] = [];
+
+    //目次抽出用mdastを作成
+    const tree = fromMarkdown(content);
+
+    visit(tree, 'heading', (node: Heading) => {
+        // レベルとテキスト内容を抽出
+        const level = node.depth-1;
+        const text = node.children
+        .filter(child => child.type === 'text') // 'text' 型のノードのみフィルター
+        .map(child => child.value)
+        .join('');
+    
+        tableOfContents.push({ level, text});
+    });
+
+    console.log(tableOfContents);
+
+    //markdown →　HTML(中略）…
+
+    return {
+        toc: tableOfContents,//目次配列
+        html: result.toString()
+    };
+}
+```
+[Headingの構成](https://github.com/syntax-tree/mdast#nodes)を覗いてみて、最初は目次の文字を
+```TypeScript
+const text =node.children[0].value;
+```
+のように取得していたのですが、『それ、textじゃない可能性もあるのでは？』とエディターに警告されてしまったので、少し回りくどく
+```TypeScript
+const text = node.children
+.filter(child => child.type === 'text') // 'text' 型のノードのみフィルター
+.map(child => child.value) // 'text' 型ノードの 'value' プロパティを取得
+.join('');
+```
+と実装してます。
+
+levelで1を引く操作をしているのは、私が記事内でh1を使うことがないからです。
+
+後は、表示する部分``/src/app/blog/[slug]/page.tsx``で
+```TypeScript
+const markdownContents = await markdownToHTML(post.content);
+
+return (
+    <Layout>
+        <h1 className={styles.hero}>{post.frontMatter.title}</h1>
+        <div className={styles.contents}>
+            <p className={styles.date}>{post.frontMatter.date}</p>
+            <div
+                className={styles.markdown}
+                dangerouslySetInnerHTML={{ __html: markdownContents.html }}    
+            />
+        </div>
+    </Layout>
+)
+```
+としてあげたらOK。
+
+## 目次とid、一致しない問題
+---
+取得した目次の配列を、``markdownToHTML``関数内に
+```TypeScript
+console.log(tableOfContents);
+```
+と書くことで出力してみると、
+```bash
+[
+  { level: 1, text: '概要' },
+  { level: 1, text: '『参加してよかった』と思えた事柄' },
+  { level: 2, text: '1.個人開発では扱わない規模感を味わえた' },
+  { level: 2, text: '2.実際に動くアプリケーションの中身を覗けた' },
+  { level: 2, text: '3.何となく嫌厭していた技術を学ぶ機会になった' },
+  { level: 1, text: '反省点' },
+  { level: 1, text: 'まとめ' }
+]
+```
+こんな感じ。
+
+あれ、先ほど見てみたidと少し違いますね。具体的には『』が無くなるなどしています。
+
+**このままでは目次にid情報が無いため、クリックして見出しに飛ぶ、ということができません。**
+
+これは、rehype-slugがidを付与する際に使用しているgithub-sluggerが影響しているらしい。
+
+ならば、[github-slugger](https://github.com/Flet/github-slugger)が文字列変換する仕組みをそのまま使って、目次配列取得のロジックに組み込んでしまえばよろしいのでは？
+
+READMEを見ながら組み込んでみます。
+
+まず、目次の型にidを追加。
+```TypeScript
+// 目次の型
+interface TableOfContentsItem {
+    level: number;
+    text: string;
+    id: string;
+};
+```
+[github-sluggerのREADME](https://github.com/Flet/github-slugger)のインストールコマンドを打ち…
+```bash
+npm install github-slugger
+```
+関数に組み込みます。
+```TypeScript
+visit(tree, 'heading', (node: Heading) => {
+    // レベルとテキスト内容を抽出
+    const level = node.depth-1; // 見出しレベル
+    const text = node.children
+    .filter(child => child.type === 'text') // 'text' 型のノードのみフィルター
+    .map(child => child.value) // 'text' 型ノードの 'value' プロパティを取得
+    .join('');
+    const id = slug(text,false);//rehype-slugの書式に統一
+
+    tableOfContents.push({ level, text, id});
+});
+```
+これで、見出しのテキストとidをまとめて取ってこれるようになりました。
+
+## 目次コンポーネント作成
+---
+せっかくなら、画面側にずっといてくれる目次の方がいいですよね。
+
+そのコンポーネントを作りにかかります。
+
+``/src/components/Toc``というディレクトリを作成。``Toc.tsx``を作って、とりあえず目次配列を受け取って並べるようにしてみます。
+
+```TypeScript
+import Link from "next/link";
+
+interface TableOfContentsItem {
+    level: number;
+    text: string;
+    id: string;
+};
+
+interface TocProps {
+    toc: TableOfContentsItem[];
+}
+
+const Toc = ({toc}: TocProps) => {
+    return (
+        <div>
+            <p>目次</p>
+            {toc.map((item, index) => (
+                <Link 
+                    href={`#${item.id}`} 
+                    key={index} 
+                    style={{ marginLeft: item.level * 20 }}
+                >
+                    {item.text}
+                </Link>
+            ))}
+        </div>
+    )
+}
+
+export default Toc;
+```
+あとは、``Toc.module.css``を書き、importしてくることで見た目を整えていきます。
+
+## 突如立ちはだかるposition:stickyの壁
+---
+見た目も大体出来て、残るは画面の移動に伴って追従させるだけ…
+
+ここで私の前に立ちはだかるは``position:sticky;``が動かない問題。
+
+3時間くらい格闘しました。どのサイトでもoverflowの設定に気をつけろと言っていましたが、そもそもoverflowについての設定を
+今まで書いてないんですよね。
+
+ずっとうんうん唸って、ついに原因を発見。Nextのプロジェクトを始めたときに自動生成されたglobals.css内にこのような記述が。
+```CSS
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;/*<-これ*/
+}
+```
+これだ…　ああ…
+
+**私はposition:stickyを許さない。**
+
+**私はglobals.cssを許さない。**
+
+## おわりに
+---
+目次として使える最小限の機能は実現できたんじゃないかと思います。
+
+技術ブログサイトとかを見ていると、現在自分がみている所がハイライトされる機能もみられます。
+
+気が向いたらその辺も実装したいと思います。
+
+見た目ももうちょっとこだわりたいよね。
