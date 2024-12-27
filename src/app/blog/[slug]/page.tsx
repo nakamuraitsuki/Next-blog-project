@@ -16,7 +16,7 @@ export async function generateStaticParams() {
         slug: post.slug,
     }));
 }
-
+//動的メタデータ設定
 export const generateMetadata = async (props: PostProps): Promise<Metadata> => {
     const params = await props.params;
     const { slug } = params;
@@ -42,7 +42,7 @@ export default async function Slug(props: PostProps) {
         notFound();
     }
 
-    const html = await markdownToHTML(post.content);
+    const markdownContents = await markdownToHTML(post.content);
 
     return (
         <Layout>
@@ -51,7 +51,7 @@ export default async function Slug(props: PostProps) {
                 <p className={styles.date}>{post.frontMatter.date}</p>
                 <div
                     className={styles.markdown}
-                    dangerouslySetInnerHTML={{ __html: html }}    
+                    dangerouslySetInnerHTML={{ __html: markdownContents.html }}    
                 />
             </div>
         </Layout>
