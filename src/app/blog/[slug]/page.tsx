@@ -5,7 +5,6 @@ import Layout from "../../../components/Layout/Layout"
 import { getAllPosts, getPostBySlug } from "@/lib/posts"
 import { markdownToHTML } from "@/lib/markdown";
 import 'highlight.js/styles/atom-one-dark.css';
-import Toc from "@/components/Toc/Toc";
 
 interface PostProps {
     params: Promise<{ slug: string }>
@@ -17,7 +16,7 @@ export async function generateStaticParams() {
         slug: post.slug,
     }));
 }
-//動的メタデータ設定
+
 export const generateMetadata = async (props: PostProps): Promise<Metadata> => {
     const params = await props.params;
     const { slug } = params;
@@ -43,24 +42,17 @@ export default async function Slug(props: PostProps) {
         notFound();
     }
 
-    const markdownContents = await markdownToHTML(post.content);
+    const html = await markdownToHTML(post.content);
 
     return (
         <Layout>
             <h1 className={styles.hero}>{post.frontMatter.title}</h1>
-            <div className={styles.mainContent}>
-                <div className={styles.articleContent}>
-                    <p className={styles.date}>{post.frontMatter.date}</p>
-                    <div
-                        className={styles.markdown}
-                        dangerouslySetInnerHTML={{ __html: markdownContents.html }}
-                    />
-                </div>
-                <aside className={styles.sidebar}>
-                    <div className={styles.stickyBlock}>
-                        <Toc toc={markdownContents.toc}/>
-                    </div>
-                </aside>
+            <div className={styles.contents}>
+                <p className={styles.date}>{post.frontMatter.date}</p>
+                <div
+                    className={styles.markdown}
+                    dangerouslySetInnerHTML={{ __html: html }}    
+                />
             </div>
         </Layout>
     )
