@@ -1,7 +1,7 @@
 import styles from "./page.module.css"
 import Link from "next/link";
 import Layout from "@/components/Layout/Layout"
-import { getAllPosts } from "@/lib/posts"
+import { getAllPosts } from "@/lib"
 import BlogCardList from "@/components/BlogCardList/BlogCardList";
 import LinkButton from "@/components/LinkButton/LinkButton";
 

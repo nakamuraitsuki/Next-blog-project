@@ -1,6 +1,6 @@
 import Layout from "../../components/Layout/Layout"
 import styles from "./blog.module.css"
-import { getAllPosts } from "@/lib/posts"
+import { getAllPosts } from "@/lib"
 import BlogCardList from "@/components/BlogCardList/BlogCardList";
 
 export default async function Blog() {
