@@ -5,7 +5,7 @@ import rehypeStringify from 'rehype-stringify'
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeSlug from 'rehype-slug';
-import print from './print';
+import print from './plugins/print';
 import { visit } from 'unist-util-visit'
 import { Heading } from 'mdast'
 import { fromMarkdown } from 'mdast-util-from-markdown';
@@ -45,6 +45,7 @@ export async function markdownToHTML(content: string): Promise<MarkdownContent> 
     //markdown →　HTML
     const result = await unified()
     .use(remarkParse)
+    .use(print)
     .use(remarkGfm)
     .use(remarkRehype)
     .use(rehypeHighlight)
