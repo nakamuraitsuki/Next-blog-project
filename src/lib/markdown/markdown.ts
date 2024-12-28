@@ -5,6 +5,7 @@ import rehypeStringify from 'rehype-stringify'
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeSlug from 'rehype-slug';
+import print from './print';
 import { visit } from 'unist-util-visit'
 import { Heading } from 'mdast'
 import { fromMarkdown } from 'mdast-util-from-markdown';
@@ -41,8 +42,6 @@ export async function markdownToHTML(content: string): Promise<MarkdownContent> 
         tableOfContents.push({ level, text, id});
     });
 
-    console.log(tableOfContents);
-
     //markdown →　HTML
     const result = await unified()
     .use(remarkParse)
@@ -52,8 +51,6 @@ export async function markdownToHTML(content: string): Promise<MarkdownContent> 
     .use(rehypeSlug)//id付与
     .use(rehypeStringify)
     .process(content);
-
-    console.log(result);
 
     return {
         toc: tableOfContents,
