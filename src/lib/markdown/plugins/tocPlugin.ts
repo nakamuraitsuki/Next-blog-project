@@ -16,7 +16,7 @@ interface TocPluginProps {
     toc: TableOfContentsItem[];
 }
 
-const tocPlugin: Plugin<[TocPluginProps],Node,void> = ({ toc }) => {
+export const tocPlugin: Plugin<[TocPluginProps],Node,void> = ({ toc }) => {
     return (tree: Node, _file: VFile) => {
         visit(tree, 'heading', (node: Heading) => {
             //レヴェルとテキスト、ID抽出
@@ -31,5 +31,3 @@ const tocPlugin: Plugin<[TocPluginProps],Node,void> = ({ toc }) => {
         })
     }
 }
-
-export default tocPlugin;

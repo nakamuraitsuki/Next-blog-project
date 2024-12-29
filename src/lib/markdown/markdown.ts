@@ -5,9 +5,7 @@ import rehypeStringify from 'rehype-stringify'
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeSlug from 'rehype-slug';
-import print from './plugins/print';
-import tocPlugin from './plugins/tocPlugin';
-
+import { print, tocPlugin } from "./plugins"
 
 // 目次の型
 interface TableOfContentsItem {
