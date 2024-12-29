@@ -17,7 +17,7 @@ interface TocPluginProps {
 }
 
 const tocPlugin: Plugin<[TocPluginProps],Node,void> = ({ toc }) => {
-    return (tree: Node, file: VFile) => {
+    return (tree: Node, _file: VFile) => {
         visit(tree, 'heading', (node: Heading) => {
             //レヴェルとテキスト、ID抽出
             const level = node.depth - 1;//h1タグは使わないので-1しておく
