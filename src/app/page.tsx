@@ -6,11 +6,11 @@ import BlogCardList from "@/components/BlogCardList/BlogCardList";
 import LinkButton from "@/components/LinkButton/LinkButton";
 
 //最新記事の取得個数
-const reccent = 2;
+const RECCENT_ARTICLE = 2;
 
 export default async function Home() {
   const posts = await getAllPosts();
-  const reccentPosts = posts.slice(0,reccent);
+  const reccentPosts = posts.slice(0,RECCENT_ARTICLE);
   return (
     <Layout>
       <h1 className={styles.hero}>しゃべる葦原</h1>
