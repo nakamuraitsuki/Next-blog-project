@@ -6,10 +6,8 @@ import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeSlug from 'rehype-slug';
 import print from './plugins/print';
-import { visit } from 'unist-util-visit'
-import { Heading } from 'mdast'
-import { fromMarkdown } from 'mdast-util-from-markdown';
-import { slug } from 'github-slugger';
+import tocPlugin from './plugins/tocPlugin';
+
 
 // 目次の型
 interface TableOfContentsItem {
@@ -27,24 +25,10 @@ interface MarkdownContent {
 export async function markdownToHTML(content: string): Promise<MarkdownContent> {
     const tableOfContents: TableOfContentsItem[] = [];
 
-    //目次抽出用mdastを作成
-    const tree = fromMarkdown(content);
-
-    visit(tree, 'heading', (node: Heading) => {
-        // レベルとテキスト内容を抽出
-        const level = node.depth-1; // 見出しレベル
-        const text = node.children
-        .filter(child => child.type === 'text') // 'text' 型のノードのみフィルター
-        .map(child => child.value) // 'text' 型ノードの 'value' プロパティを取得
-        .join('');
-        const id = slug(text,false);//rehype-slugの書式に統一
-
-        tableOfContents.push({ level, text, id});
-    });
-
     //markdown →　HTML
     const result = await unified()
     .use(remarkParse)
+    .use(tocPlugin, {toc: tableOfContents})//目次抽出
     .use(print)
     .use(remarkGfm)
     .use(remarkRehype)
