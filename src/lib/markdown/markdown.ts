@@ -5,7 +5,7 @@ import rehypeStringify from 'rehype-stringify'
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeSlug from 'rehype-slug';
-import { print, tocPlugin } from "./plugins"
+import { print, tocPlugin, tweetPlugin } from "./plugins"
 
 // 目次の型
 interface TableOfContentsItem {
@@ -27,6 +27,7 @@ export async function markdownToHTML(content: string): Promise<MarkdownContent> 
     const result = await unified()
     .use(remarkParse)
     .use(tocPlugin, {toc: tableOfContents})//目次抽出
+    .use(tweetPlugin)
     .use(print)
     .use(remarkGfm)
     .use(remarkRehype)
