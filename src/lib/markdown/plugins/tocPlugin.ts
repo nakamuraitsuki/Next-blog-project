@@ -1,7 +1,7 @@
 import { Plugin } from "unified";
 import { Node } from "unist";
-import {Heading } from "mdast";
-import { VFile } from "vfile";
+import { Heading } from "mdast";
+import{ VFile } from "vfile";
 import { visit } from "unist-util-visit";
 import { slug } from "github-slugger";
 
