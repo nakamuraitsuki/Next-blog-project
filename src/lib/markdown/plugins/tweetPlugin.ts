@@ -1,6 +1,6 @@
 import { Plugin } from "unified";
 import { Node, Parent } from "unist";
-import { Paragraph, PhrasingContent, Text } from "mdast";
+import { Paragraph } from "mdast";
 import { VFile } from "vfile";
 import { visit } from "unist-util-visit";
 import { TweetNode } from "@/lib/type";
