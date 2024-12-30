@@ -6,19 +6,12 @@ import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeSlug from 'rehype-slug';
 import { print, tocPlugin, tweetPlugin } from "./plugins"
-
-// 目次の型
-interface TableOfContentsItem {
-    level: number;
-    text: string;
-    id: string;
-};
+import { TableOfContentsItem } from '../type';
 
 interface MarkdownContent {
     toc: TableOfContentsItem[];
     html: string;
 }
-
 
 export async function markdownToHTML(content: string): Promise<MarkdownContent> {
     const tableOfContents: TableOfContentsItem[] = [];

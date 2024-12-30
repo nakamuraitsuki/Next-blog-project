@@ -1,11 +1,6 @@
 import Link from "next/link";
 import styles from "./Toc.module.css";
-
-interface TableOfContentsItem {
-    level: number;
-    text: string;
-    id: string;
-};
+import { TableOfContentsItem } from "@/lib/type";
 
 interface TocProps {
     toc: TableOfContentsItem[];

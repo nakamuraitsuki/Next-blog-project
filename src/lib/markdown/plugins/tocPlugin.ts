@@ -4,13 +4,7 @@ import { Heading } from "mdast";
 import{ VFile } from "vfile";
 import { visit } from "unist-util-visit";
 import { slug } from "github-slugger";
-
-// 目次の型
-interface TableOfContentsItem {
-    level: number;
-    text: string;
-    id: string;
-};
+import { TableOfContentsItem } from "@/lib/type";
 
 interface TocPluginProps {
     toc: TableOfContentsItem[];
