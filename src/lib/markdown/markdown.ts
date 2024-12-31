@@ -28,7 +28,7 @@ const rehypeReactHandlers: Partial<Components> = {
     div: divHandler,
 }
 
-export async function markdownToHTML(content: string): Promise<MarkdownContent> {
+export async function markdownToJSX(content: string): Promise<MarkdownContent> {
     const tableOfContents: TableOfContentsItem[] = [];
 
     //markdown →　JSX
