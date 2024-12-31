@@ -1,5 +1,7 @@
+import { Handler, State } from "mdast-util-to-hast";
 import { isParagraph, isText } from "./nodeUtils";
 import { Paragraph } from "mdast";
+import { TweetNode } from "@/lib/type";
 
 const TWEET_BEGGINING = ":::tweet\n";
 const TWEET_ENDING = "\n:::";
@@ -26,4 +28,15 @@ export function isTweet(node: unknown): node is Paragraph {
     }
 
     return true;
+}
+
+export const tweetHandler: Handler = (h: State, node: TweetNode) => {
+    return {
+        type: "element",
+        tagName: "div",
+        properties: {
+          className: ["tweet"],
+        },
+        children: h.all(node),
+      };
 }
