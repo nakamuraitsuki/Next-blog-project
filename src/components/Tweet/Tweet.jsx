@@ -2,8 +2,10 @@ import styles from "./Tweet.module.css";
 
 export const Tweet = ({ children }) => {
     return(
-        <div className={styles.tweet}>
-            {children}
+        <div className={styles.wrap}>
+            <div className={styles.tweet}>
+                {children}
+            </div>
         </div>
     )
 }
