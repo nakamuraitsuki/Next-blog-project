@@ -1,17 +1,6 @@
 import styles from "./BlogCardList.module.css"
 import BlogCard from "../BlogCard/BlogCard"
-
-interface FrontMatter {
-    title: string;
-    date: string;
-    description: string;
-}
-
-interface Post {
-    frontMatter: FrontMatter;
-    slug: string;
-    content: string;
-  }
+import { Post } from "@/lib/type";
 
 interface BlogCardListProps {
     posts: Post[];

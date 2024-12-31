@@ -1,17 +1,6 @@
 import styles from "./BlogCard.module.css"
 import Link from "next/link";
-
-interface FrontMatter {
-    title: string;
-    date: string;
-    description: string;
-}
-
-interface Post {
-    frontMatter: FrontMatter;
-    slug: string;
-    content: string;
-  }
+import { Post } from "@/lib/type";
 
 interface BlogCardProps {
     post: Post;

@@ -1,0 +1,41 @@
+.wrap {
+    width: 100%;
+    margin: 32px auto;
+}
+/*本体*/
+.tweet{
+    max-width: 750px;
+    width: fit-content;
+    margin-left: 40px;
+    margin-right: 40px;
+    font-size: 0.875rem;
+    position: relative;
+    padding: 20px;
+    border: 1px solid #6f5d00;
+    color: #6f5d00;
+    border-radius: 8px;
+}
+/* 大きい丸 */
+.tweet::before{
+    content: '';
+    position: absolute;
+    display: block;
+    border-radius: 50%;
+    border: 1px solid #6f5d00;
+    left: -20px;
+    bottom: 15px;
+    width: 15px;
+    height: 15px;
+}
+  /* 小さい丸 */
+.tweet::after{
+    content: '';
+    position: absolute;
+    display: block;
+    border-radius: 50%;
+    border: 1px solid #6f5d00;
+    left: -35px;
+    bottom: 10px;
+    width: 10px;
+    height: 10px;
+}

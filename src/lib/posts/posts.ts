@@ -1,20 +1,7 @@
 import fs from 'fs/promises'; //fsモジュール（非同期版）
 import path from 'path'; //pathをつかさどる
 import matter from 'gray-matter';
-
-//メタデータの型
-interface FrontMatter {
-  title: string;
-  date: string;
-  description: string;
-}
-
-//記事の型
-interface Post {
-  frontMatter: FrontMatter;
-  slug: string;
-  content: string;
-}
+import { FrontMatter, Post } from '../type';
 
 //起動時にルートディレクトリを得て、ルート直下のpostsディレクトリパスにする
 const postDirectory = path.join(process.cwd(), 'posts');

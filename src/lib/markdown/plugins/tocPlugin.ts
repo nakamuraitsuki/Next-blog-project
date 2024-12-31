@@ -4,19 +4,13 @@ import { Heading } from "mdast";
 import{ VFile } from "vfile";
 import { visit } from "unist-util-visit";
 import { slug } from "github-slugger";
-
-// 目次の型
-interface TableOfContentsItem {
-    level: number;
-    text: string;
-    id: string;
-};
+import { TableOfContentsItem } from "@/lib/type";
 
 interface TocPluginProps {
     toc: TableOfContentsItem[];
 }
 
-const tocPlugin: Plugin<[TocPluginProps],Node,void> = ({ toc }) => {
+export const tocPlugin: Plugin<[TocPluginProps],Node,void> = ({ toc }) => {
     return (tree: Node, _file: VFile) => {
         visit(tree, 'heading', (node: Heading) => {
             //レヴェルとテキスト、ID抽出
@@ -31,5 +25,3 @@ const tocPlugin: Plugin<[TocPluginProps],Node,void> = ({ toc }) => {
         })
     }
 }
-
-export default tocPlugin;

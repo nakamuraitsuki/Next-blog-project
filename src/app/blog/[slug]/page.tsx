@@ -50,10 +50,9 @@ export default async function Slug(props: PostProps) {
             <div className={styles.mainContent}>
                 <div className={styles.articleContent}>
                     <p className={styles.date}>{post.frontMatter.date}</p>
-                    <div
-                        className={styles.markdown}
-                        dangerouslySetInnerHTML={{ __html: markdownContents.html }}
-                    />
+                    <div className={styles.markdown}>
+                        {markdownContents.JSXElement}
+                    </div>
                 </div>
                 <aside className={styles.sidebar}>
                     <div className={styles.stickyBlock}>
