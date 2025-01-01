@@ -3,6 +3,7 @@ import { isParagraph, isText } from "./nodeUtils";
 import { Paragraph } from "mdast";
 import { TweetNode } from "@/lib/type";
 
+//TODO:改行が\r\nと認識されるときの対処（エディター依存にしたくない）
 const TWEET_BEGGINING = ":::tweet\n";
 const TWEET_ENDING = "\n:::";
 
