@@ -13,9 +13,9 @@ export const getOGP = async (url: string): Promise<ogpData> => {
         const ogImageUrl = $('meta[property="og:image"]').attr('content') ?? null;
     
         const res: ogpData = { ogTitle, ogDescription, ogImageUrl }
-        console.log(res);
         return res;
     } catch (error) {
+        console.log(error);
         return {
             ogTitle: "Error",
             ogDescription: "No description available",

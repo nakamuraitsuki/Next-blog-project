@@ -19,6 +19,7 @@ export async function GET(req: NextRequest): Promise<Response> {
             status: response.status
         });
     } catch (error) {
+        console.log(error);
         return Response.json({status: 500});
     }
 }
