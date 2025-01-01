@@ -43,4 +43,5 @@ next-env.d.ts
 #起動時に生成される%1ファイルを無視する
 %1
 
-
+#良く作るtest.mdを無視
+./posts/test.md
