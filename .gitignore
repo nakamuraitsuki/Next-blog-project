@@ -44,4 +44,4 @@ next-env.d.ts
 %1
 
 #良く作るtest.mdを無視
-./posts/test.md
+test.md
