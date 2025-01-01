@@ -1,5 +1,5 @@
 import { Node, Parent, Literal } from "unist";
-import { Paragraph, Text } from "mdast";
+import { Link, Paragraph, Text } from "mdast";
 
 function isObject(target: unknown): target is { [key: string]: unknown } {
   return typeof target === "object" && target !== null;
@@ -29,5 +29,12 @@ export function isParagraph(node: unknown): node is Paragraph {
 export function isText(node: unknown): node is Text {
   return (
     isLiteral(node) && node.type === "text" && typeof node.value === "string"
+  );
+}
+
+//https://github.com/syntax-tree/mdast#Link
+export function isLink(node: unknown): node is Link {
+  return (
+    isParent(node) && node.type === "link" 
   );
 }
