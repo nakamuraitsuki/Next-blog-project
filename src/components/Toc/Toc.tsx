@@ -6,7 +6,7 @@ interface TocProps {
     toc: TableOfContentsItem[];
 }
 
-const Toc = ({toc}: TocProps) => {
+export const Toc = ({toc}: TocProps) => {
     return (
         <div className={styles.container}>
             <h3 className={styles.title}>目次</h3>
@@ -24,5 +24,3 @@ const Toc = ({toc}: TocProps) => {
         </div>
     )
 }
-
-export default Toc;

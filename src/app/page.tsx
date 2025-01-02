@@ -1,9 +1,7 @@
 import styles from "./page.module.css"
 import Link from "next/link";
-import Layout from "@/components/Layout/Layout"
+import { Layout, BlogCardList, LinkButton } from "@/components"
 import { getAllPosts } from "@/lib"
-import BlogCardList from "@/components/BlogCardList/BlogCardList";
-import LinkButton from "@/components/LinkButton/LinkButton";
 
 //最新記事の取得個数
 const RECCENT_ARTICLE = 2;

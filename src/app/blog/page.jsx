@@ -1,7 +1,6 @@
-import Layout from "../../components/Layout/Layout"
 import styles from "./blog.module.css"
 import { getAllPosts } from "@/lib"
-import BlogCardList from "@/components/BlogCardList/BlogCardList";
+import { Layout, BlogCardList } from "@/components";
 
 export default async function Blog() {
     const posts = await getAllPosts();

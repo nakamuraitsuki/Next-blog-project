@@ -1,12 +1,12 @@
 import styles from "./BlogCardList.module.css"
-import BlogCard from "../BlogCard/BlogCard"
+import { BlogCard } from "../BlogCard/BlogCard"
 import { Post } from "@/lib/type";
 
 interface BlogCardListProps {
     posts: Post[];
 }
 
-const BlogCardList = ({ posts } :BlogCardListProps) => {
+export const BlogCardList = ({ posts } :BlogCardListProps) => {
     return (
         <div className={styles.cardList}>
             {posts.map((post) => (
@@ -17,5 +17,3 @@ const BlogCardList = ({ posts } :BlogCardListProps) => {
         </div>
     );
 }
-
-export default BlogCardList;

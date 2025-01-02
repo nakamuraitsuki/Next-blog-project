@@ -1,10 +1,9 @@
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import styles from "./slug.module.css"
-import Layout from "../../../components/Layout/Layout"
 import { getAllPosts, getPostBySlug, markdownToJSX } from "@/lib"
 import 'highlight.js/styles/atom-one-dark.css';
-import Toc from "@/components/Toc/Toc";
+import { Layout, Toc } from "@/components";
 
 interface PostProps {
     params: Promise<{ slug: string }>

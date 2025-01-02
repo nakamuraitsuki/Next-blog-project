@@ -6,7 +6,7 @@ interface BlogCardProps {
     post: Post;
 }
 
-const BlogCard = ({ post } :BlogCardProps) => {
+export const BlogCard = ({ post } :BlogCardProps) => {
     return (
         <Link href={`/blog/${post.slug}`} passHref>
             <div className={styles.card}>
@@ -17,5 +17,3 @@ const BlogCard = ({ post } :BlogCardProps) => {
         </Link>
     );
 }
-
-export default BlogCard;
