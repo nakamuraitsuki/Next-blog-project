@@ -31,6 +31,8 @@
     height: 40px;
     font-size: 1.125rem !important;/*.markdown pのオーバーライド回避*/
     line-height: 1.25rem !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .ogDescription {
@@ -38,17 +40,8 @@
     height:64px;
     font-size: 0.875rem !important;
     line-height: 1rem !important;
-}
-
-@media (max-width: 767px) {
-    .ogTitle{
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-    .ogDescription{
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .imgWrap {
