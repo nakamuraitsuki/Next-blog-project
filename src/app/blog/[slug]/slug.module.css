@@ -216,6 +216,7 @@
     padding: 2px 4px;
     border-radius: 4px;
     font-size: 1rem;
+    display: inline-block;
 }
 
 @media (max-width: 376px) {
