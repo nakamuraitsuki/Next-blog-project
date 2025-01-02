@@ -1,5 +1,5 @@
 import styles from "./about.module.css"
-import Layout from "@/components"
+import { Layout } from "@/components"
 
 function ProfileText() {
     return(
