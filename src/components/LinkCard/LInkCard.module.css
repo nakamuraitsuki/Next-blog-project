@@ -1,0 +1,69 @@
+.LinkCard {
+    margin: 24px 0;
+    display: block;
+    text-decoration: none !important;/*!importntしないと.markdown aのオーバーライドを逃れられない*/
+    color: #000000 !important;
+    width: 100%;
+    height: 140px;
+    padding: 0;
+    background-color: #ffffff;
+    border-radius: 8px;
+    border: 1px solid #eee2bc;
+}
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+}
+
+.ogText {
+    flex: 1;
+    margin: 12px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+}
+
+.ogTitle {
+    margin: 0;
+    font-weight: bold;
+    height: 40px;
+    font-size: 1.125rem !important;/*.markdown pのオーバーライド回避*/
+    line-height: 1.25rem !important;
+}
+
+.ogDescription {
+    margin: 0;
+    height:64px;
+    font-size: 0.875rem !important;
+    line-height: 1rem !important;
+}
+
+@media (max-width: 767px) {
+    .ogTitle{
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .ogDescription{
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+.imgWrap {
+}
+
+@media (max-width: 767px) {
+    .imgWrap {
+        display: none;
+    }
+}
+
+.img{
+    margin: 0 !important;
+    width: auto !important;
+    height: 138px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
