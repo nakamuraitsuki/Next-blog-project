@@ -28,6 +28,7 @@
 .ogTitle {
     margin: 0;
     font-weight: bold;
+    color: #6f5d00;
     height: 40px;
     font-size: 1.125rem !important;/*.markdown pのオーバーライド回避*/
     line-height: 1.25rem !important;
