@@ -8,10 +8,12 @@ export const getOGP = async (url: string): Promise<ogpData> => {
         const html = await result.text(); //testで処理
     
         const $ = cheerio.load(html);
-        const ogTitle = $('meta[property="og:title"]').attr('content') ?? "Untitled Page";
+        const headContent = $('head').html();
+        console.log(url);
+        console.log(headContent);
+        const ogTitle = $('meta[property="og:title"]').attr('content') ?? $('title').text() ?? "Untitled Page";
         const ogDescription = $('meta[property="og:description"]').attr('content') ?? "No description available";
         const ogImageUrl = $('meta[property="og:image"]').attr('content') ?? null;
-    
         const res: ogpData = { ogTitle, ogDescription, ogImageUrl }
         return res;
     } catch (error) {
