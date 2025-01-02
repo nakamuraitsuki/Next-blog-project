@@ -53,6 +53,10 @@ MPAは膨大なJavaScriptを読み込む必要がないので、**サイトが�
 
 それは**markdownの扱いがとてもカンタンそうだった**ことです。軽く調べただけですが、[『初めてのMarkdownによるブログ記事 | Docs』](https://docs.astro.build/ja/tutorial/2-pages/2/)とかを見ると、すごくラクそう！
 
+:::linkCard
+https://docs.astro.build/ja/tutorial/2-pages/2/
+:::
+
 #### なぜAstroを選ばなかったのか
 ここまでの記述を見ると、このブログで実現したいことはすべてAstroで実現できそうです。
 
@@ -136,7 +140,9 @@ App Routerって何だ？　なんかおすすめらしいです。
 
 デフォルトの選択肢がYesなのでYesにしちゃいましたが、導入の必要はなかったかもしれないなと感じています。手に余るものを入れてしまったという印象。
 
-[Next.jsの公式ドキュメント](https://nextjs.org/docs)
+:::linkCard
+https://nextjs.org/docs
+:::
 
 ```bash
 ? Would you like to use Turbopack for `next dev`? › No / Yes
@@ -260,6 +266,10 @@ fsは**F**ile **s**ystemの略で、Node.jsの標準モジュールです。
 
 **[Node.jsの公式ドキュメント](https://nodejs.org/api/fs.html#fsreadfilepath-options-callback)** やネットに転がっている記事が大変参考になりました。
 
+:::linkCard
+https://nodejs.org/api/fs.html#fsreadfilepath-options-callback
+:::
+
 まずはインポートから。
 ```TypeScript
 import fs from 'fs/promises';
@@ -333,6 +343,10 @@ const fileContent = await fs.readFile(filePath, 'utf-8'); // 非同期読み込�
 
 [gray-matterの公式ドキュメント](https://github.com/jonschlinkert/gray-matter)が非常にわかりやすいので，引用させていただきます．
 
+:::linkCard
+https://github.com/jonschlinkert/gray-matter
+:::
+
 簡単に言うと，
 ```html
 ---
@@ -365,6 +379,14 @@ const { data, content } = matter(fileContent);//メタデータと本文を抽�
 記事を書いている内に、``Promie.all``というものをこのブログを作る中で初めて知ったことを思い出したので。メモしておきます。
 
 [MDN Web DocsのJavaScriptリファレンス](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise/all)や[この動画](https://www.youtube.com/watch?v=ZOegyhySvPY&t=45s)などが非常に参考になりました．
+
+:::linkCard
+https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise/all
+:::
+
+:::linkCard
+https://www.youtube.com/watch?v=ZOegyhySvPY&t=45s
+:::
 
 ``Promise.all``によって、並列処理っぽいことが可能になるという事ですね。
 
@@ -410,6 +432,10 @@ const sortedPosts = posts.sort((postA, postB) =>
 、既に多少ソート済みな配列に対してとても良いパフォーマンスを出せるようです。
 
 参考記事：[高速な安定ソートアルゴリズム "TimSort" の解説 - Preferred Networks Research & Development](https://tech.preferred.jp/ja/blog/tim-sort/)
+
+:::linkCard
+https://tech.preferred.jp/ja/blog/tim-sort/
+:::
 
 ## 4. リストの表示
 ---
