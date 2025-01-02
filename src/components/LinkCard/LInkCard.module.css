@@ -11,6 +11,13 @@
     border: 1px solid #eee2bc;
 }
 
+@media(prefers-color-scheme: dark) {
+    .LinkCard {
+        background-color: #1e1e1e;
+        border: 1px solid #f3d500;
+    }
+}
+
 .flex {
     display: flex;
     justify-content: space-between;
@@ -36,6 +43,12 @@
     text-overflow: ellipsis;
 }
 
+@media (prefers-color-scheme: dark) {
+    .ogTitle {
+        color: #f3d500;
+    }
+}
+
 .ogDescription {
     margin: 0;
     height:64px;
@@ -43,6 +56,12 @@
     line-height: 1rem !important;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+@media (prefers-color-scheme: dark) {
+    .ogDescription {
+        color: #cccccc; /* 説明文の色を調整 */
+    }
 }
 
 .imgWrap {
