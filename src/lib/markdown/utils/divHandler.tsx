@@ -7,8 +7,8 @@ export const divHandler: Components['div'] = (
     props: JSX.IntrinsicElements['div'] & 
     ExtraProps & 
     { 
-        'data-meta'?: string;
-        'data-value'?: string 
+        'data-meta': string | null;
+        'data-value': string | null;
     }//divに持たせたデータを許容する
 ): JSX.Element => {
     //分割代入で展開
@@ -21,14 +21,16 @@ export const divHandler: Components['div'] = (
     if( className === 'codeHeader' ) {
         const meta = props['data-meta'];
         const value = props['data-value'];
-        return (
-            <CodeHeader
-                meta={meta}
-                value={value}
-            >
-                {restProps.children}
-            </CodeHeader>
-        )
+        if( meta !== null && value !== null) {
+            return (
+                <CodeHeader
+                    meta={meta}
+                    value={value}
+                >
+                    {restProps.children}
+                </CodeHeader>
+            )
+        }
     }
 
     return <div {...restProps} />;
