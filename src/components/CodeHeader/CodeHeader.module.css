@@ -37,6 +37,6 @@
 
 .children pre code {
     margin-top: 0 !important;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
 }
