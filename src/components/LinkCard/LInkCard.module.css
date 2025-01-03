@@ -64,9 +64,6 @@
     }
 }
 
-.imgWrap {
-}
-
 @media (max-width: 767px) {
     .imgWrap {
         display: none;
