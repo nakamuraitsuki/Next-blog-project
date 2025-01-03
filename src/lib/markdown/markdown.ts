@@ -27,8 +27,8 @@ const remarkRehypeHandlers: Partial<Record<Nodes['type'], Handler>> = {
 
 //remarkReactに渡すカスタムハンドラ
 const rehypeReactHandlers: Partial<Components> = {
-    div: divHandler, //divにclassを付与するタイプのカスタム
-    a: aHandler, //aにclassを付与するタイプのカスタム
+    div: divHandler, //class付きdivをJSXコンポーネントに変換
+    a: aHandler, //class付きaをJSXに変換
 }
 
 export async function markdownToJSX(content: string): Promise<MarkdownContent> {
