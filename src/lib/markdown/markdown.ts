@@ -42,7 +42,6 @@ export async function markdownToJSX(content: string): Promise<MarkdownContent> {
     .use(tweetPlugin)
     .use(linkCardPlugin)
     .use(codeHeaderPlugin)
-    .use(print)
     .use(remarkGfm)
     .use(remarkRehype, { handlers: remarkRehypeHandlers })
     .use(rehypeHighlight)

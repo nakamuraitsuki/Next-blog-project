@@ -7,8 +7,8 @@ export const codeHeaderHandler: Handler = (h: State, node: CodeHeaderNode) => {
         tagName: "div",
         properties: {
           className: ["codeHeader"],
-          meta: node.meta,
-          value: node.value,
+          "data-meta": node.meta,
+          "data-value": node.value,
         },
         children: h.all(node),
       };
