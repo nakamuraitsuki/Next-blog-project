@@ -1,0 +1,42 @@
+.header {
+    display: flex;
+    height: 36px;
+    padding: 0 12px !important;
+    margin-top: 12px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    background-color: #fce27c;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.meta {
+    font-size: 1.125rem !important;
+    line-height: 1.25rem !important;
+    height: fit-content;
+    margin: 0;
+    justify-content: center;
+}
+
+.button {
+    height: 30px;
+    width: 30px;
+    align-items: center;
+    margin: 0;
+    border: none;
+    display: flex;
+    justify-content: center;
+    background-color: inherit;
+
+}
+
+.button:active {
+    transform: translateY(1px) translateX(1px);
+}
+
+.children pre code {
+    margin-top: 0 !important;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}

@@ -83,7 +83,7 @@ AppRouetrになってからルーティングが変わって、``src/app/api/rou
 
 今回は、``/app/api/proxy/route.ts``とかに色々書き込んでみます。
 
-```ts
+```ts /app/api/proxy/route.ts
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest): Promise<Response> {
@@ -146,8 +146,6 @@ return new Response(html, {
 ---
 プロキシを作れたので、プロキシにリクエストを飛ばして、返答を上手く処理する関数を作ります。
 
-``/src/lib/fetch/ogp.ts``に書きます。
-
 関数に必要な機能を整理しておきます。
 - urlを引数にとって、そのurlの情報を取得しに行く（プロキシ活用）
 
@@ -157,7 +155,7 @@ return new Response(html, {
 
 さっそく実装します。
 まず、引数を使って取得しに行くところから
-```ts
+```ts /src/lib/fetch/ogp.ts
 export const getOGP = async (url: string) => {
     const proxyUrl = process.env.API_PROXY_URL; //proxyサーバーURL
     const result = await fetch(`${proxyUrl}?url=${url}`); //パラメータを付与してリクエスト
@@ -250,8 +248,7 @@ const ogImageUrl = $('meta[property="og:image"]').attr('content') ?? null;
 ---
 今後扱い易いように、``ogpData``型を用意しておきましょう。
 
-``/src/lib/type/ogp.ts``に定義していきます。
-```ts
+```ts /src/lib/type/ogp.ts
 //メタデータセットの型
 export interface ogpData {
     ogTitle: string;
@@ -263,7 +260,7 @@ TODOにも書いてありますが、nullの時にはデフォルトアイコン
 
 では、この型を使って関数を完成させましょう。
 
-```ts
+```ts /src/lib/fetch/ogp.ts
 import * as cheerio from 'cheerio';
 import { ogpData } from '../type';
 
@@ -330,7 +327,7 @@ url
 この記法で書かれたLinkを **linkNode** という独自ノードにしましょう。
 
 独自ノードの定義を``/src/lib/type/linkCard.ts``に書きます。
-```ts
+```ts /src/lib/type/linkCard.ts
 //linkCard用のNode
 export interface LinkCardNode extends Node {
     type: 'linkCard';
@@ -343,7 +340,7 @@ export interface LinkCardNode extends Node {
 Markdownからmdastにする時にLinkCardNodeにするプラグインを作ります。
 
 まずは、記法を判定する関数から。
-```ts
+```ts /src/lib/markdown/utils/linkCardUtils.ts
 const LINK_CARD_BEGGINING = ":::linkCard\n";
 const LINK_CARD_ENDING = "\n:::";
 
@@ -387,7 +384,7 @@ export function isLinkCard(node: unknown): node is Paragraph {
 3. 「:::linkCard\n」＋「URL」＋「:::\n」の構成である
 
 この``isLinkCard``を使ってプラグインを作ります。
-```ts
+```ts linkCardPlugin.ts
 import { Plugin } from "unified";
 import { Node, Parent } from "unist";
 import { Paragraph, Link } from "mdast";
@@ -421,7 +418,7 @@ export const linkCardPlugin: Plugin<[], Node, void> = () => {
 これは、remarkRehypeに新しい変換定義を与えるだけでok
 
 定義関数を書きます。
-```ts
+```ts linkCardUtils.ts
 export const linkCardHandler: Handler = (_h: State, node: LinkCardNode) => {
     return {
         type: "element",
@@ -441,7 +438,7 @@ export const linkCardHandler: Handler = (_h: State, node: LinkCardNode) => {
 これもrehypeReactに定義を渡すだけ
 
 定義関数を書きます。
-```ts
+```ts aHandler.tsx
 import { Components } from "rehype-react";
 import { JSX } from "react";
 import { ExtraProps } from "hast-util-to-jsx-runtime";
@@ -465,7 +462,7 @@ export const aHandler: Components['a'] = (props: JSX.IntrinsicElements['a'] & Ex
 今まで作ってきたプラグインを使います。
 
 まず、Nodes型を拡張して警告を回避。``/src/lib/type/nodes.ts``に書きます。
-```ts
+```ts nodes.ts
 import { TweetNode, LinkCardNode } from "../type"
 
 declare module 'mdast' {
@@ -476,7 +473,7 @@ declare module 'mdast' {
 }
 ```
 あとは、今まで書いてきたプラグインやハンドラを組み込むだけです。
-```ts
+```ts markdown.ts
 interface MarkdownContent {
     toc: TableOfContentsItem[];
     JSXElement: JSX.Element;
@@ -533,7 +530,7 @@ export async function markdownToJSX(content: string): Promise<MarkdownContent> {
 - カードとして表示する
 
 これを加味して実装しました。
-```ts
+```ts LinkCard.tsx
 import styles from "./LInkCard.module.css"
 import { getOGP } from "@/lib";
 import { ogpData } from "@/lib";
@@ -592,7 +589,7 @@ https://www.npmjs.com/package/react-icons
 いつかもっとうまくやる方法を模索した方がいいかも
 :::
 
-```css
+```css LinkCard.module.css
 .LinkCard {
     margin: 24px 0;
     display: block;
