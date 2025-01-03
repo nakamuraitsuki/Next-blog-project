@@ -1,12 +1,14 @@
 import { Handler, State } from "mdast-util-to-hast";
-import { TweetNode } from "@/lib/type";
+import { CodeHeaderNode } from "@/lib/type";
 
-export const codeHeaderHandler: Handler = (h: State, node: TweetNode) => {
+export const codeHeaderHandler: Handler = (h: State, node: CodeHeaderNode) => {
     return {
         type: "element",
         tagName: "div",
         properties: {
           className: ["codeHeader"],
+          meta: node.meta,
+          value: node.value,
         },
         children: h.all(node),
       };
