@@ -1,8 +1,8 @@
 import { Code } from "mdast";
 
-export interface CodeHeaderNode {
+export interface CodeHeaderNode extends Node {
     type: 'codeHeader'
     meta: string;
     value: string;
-    children: Code;
+    children: Code[];
 }
