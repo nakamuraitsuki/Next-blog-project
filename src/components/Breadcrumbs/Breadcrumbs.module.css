@@ -1,0 +1,27 @@
+.breadcrumbs {
+    height: 40px;
+    padding: 0 16px;
+    background-color: #f8fafd;
+    display: flex;
+    color: #6f5d00;
+    align-items: center;
+}
+
+.breadcrumbsItem {
+    height: 100%;
+    margin: auto 0;
+    display: flex;
+    align-items: center;
+}
+
+.link {
+    text-align: center;
+}
+
+.right {
+    margin: 0 12px;
+}
+
+.home {
+    margin: 0 12px;
+}
