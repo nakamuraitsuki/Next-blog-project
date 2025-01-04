@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import styles from "./slug.module.css"
-import { getAllPosts, getPostBySlug, markdownToJSX } from "@/lib"
+import { BreadcrumbsItem, getAllPosts, getPostBySlug, markdownToJSX } from "@/lib"
 import 'highlight.js/styles/atom-one-dark.css';
 import { Layout, Toc } from "@/components";
 
@@ -43,8 +43,14 @@ export default async function Slug(props: PostProps) {
 
     const markdownContents = await markdownToJSX(post.content);
 
+    const breadcrumbs: BreadcrumbsItem[] = [
+        { name: "Home", path: "/" },
+        { name: "記事一覧", path: "/blog" },
+        { name: post.frontMatter.title, path: `/blog/${post.slug}` },
+    ]
+
     return (
-        <Layout>
+        <Layout breadcrumbs={breadcrumbs}>
             <h1 className={styles.hero}>{post.frontMatter.title}</h1>
             <div className={styles.mainContent}>
                 <div className={styles.articleContent}>

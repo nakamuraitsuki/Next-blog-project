@@ -1,5 +1,11 @@
 import styles from "./about.module.css"
 import { Layout } from "@/components"
+import { BreadcrumbsItem } from "@/lib"
+
+const BREAD_CLUMBS: BreadcrumbsItem[] = [
+    { name: "Home", path: "/"},
+    { name: "About", path: "/about" },
+]
 
 function ProfileText() {
     return(
@@ -93,7 +99,7 @@ function AboutText() {
 
 export default function About() {
     return (
-        <Layout>
+        <Layout breadcrumbs={BREAD_CLUMBS}>
             <div className={styles.container}>
                 <h1 className={styles.hero}>About</h1>
                 <div className={styles.contents}>
