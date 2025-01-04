@@ -1,3 +1,9 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .cardList {
     max-width:840px;
     display: flex;
@@ -10,4 +16,26 @@
     .cardList {
       justify-content: center; /* 画面の横幅が860px以下の時に中央揃え */
     }
+}
+
+.pagination {
+  margin: 32px 0;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.activeButton {
+  width: 32px;
+  height: 32px;
+  font-size: 1.125rem;
+  background-color: #fce27c;
+  border: none;
+}
+
+.unactiveButton {
+  width: 32px;
+  height: 32px;
+  font-size: 1.125rem;
+  border: none;
 }

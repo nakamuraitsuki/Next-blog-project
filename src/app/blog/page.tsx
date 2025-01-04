@@ -16,7 +16,7 @@ export default async function Blog() {
         <Layout breadcrumbs={BREAD_CLUMBS}>
             <h1 className={styles.title}>記事一覧</h1>
             <div className={styles.List}>
-                <BlogCardList posts={posts} itemsPerPage={ITEMS_PER_PAGE}/>
+                <BlogCardList posts={posts} itemsPerPage={ITEMS_PER_PAGE} isPagination={true} />
             </div>
         </Layout>
     );

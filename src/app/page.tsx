@@ -23,7 +23,7 @@ export default async function Home() {
         </div>
       </div>
       <h2 className={styles.title}>最近の記事</h2>
-      <BlogCardList posts={reccentPosts}/>
+      <BlogCardList posts={reccentPosts} itemsPerPage={2} isPagination={false}/>
       <div className={styles.buttonWrap}>
         <LinkButton href="/blog" text="もっとみる"/>
       </div>

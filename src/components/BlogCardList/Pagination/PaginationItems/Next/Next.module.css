@@ -1,0 +1,24 @@
+.active {
+    background-color: inherit;
+}
+
+.active:hover {
+    transform: translateY(1px) translateX(1px);
+}
+
+.active:active {
+    transform: none;
+}
+
+.disabled {
+    background-color: inherit;
+    color: #eee8e1;
+}
+
+.disabled:hover {
+    transform: translateY(1px) translateX(1px);
+}
+
+.disabled:active {
+    transform: none;
+}

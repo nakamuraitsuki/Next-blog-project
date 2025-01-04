@@ -1,0 +1,24 @@
+.selected {
+    background-color: inherit;
+}
+
+.selected:hover {
+    transform: translateY(1px) translateX(1px);
+}
+
+.selected:active {
+    transform: none;
+}
+
+.unselected {
+    background-color: inherit;
+    color: #eee8e1;
+}
+
+.unselected:hover {
+    transform: translateY(1px) translateX(1px);
+}
+
+.unselected:active {
+    transform: none;
+}
