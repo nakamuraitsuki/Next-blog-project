@@ -1,0 +1,21 @@
+.selected {
+    width: 30px;
+    height: 30px;
+    color: #ffffff;
+    background-color: #f3d500;
+    border-radius: 50%;
+    border: none;
+    border: none;
+}
+
+.unselected {
+    width: 30px;
+    height: 30px;
+    background-color: inherit;
+    border: none;
+    border-radius: 50%;
+}
+
+.unselected:hover {
+    background-color: #f8fafd;
+}
