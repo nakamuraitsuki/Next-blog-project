@@ -14,7 +14,7 @@ export const Previous = ({
                 data-type={type}
                 disabled={disabled}
                 type="button"
-                className={ disabled ? styles.active : styles.disabled }
+                className={ disabled ? styles.disabled : styles.active }
             >
                 <FaCaretLeft />
             </button>

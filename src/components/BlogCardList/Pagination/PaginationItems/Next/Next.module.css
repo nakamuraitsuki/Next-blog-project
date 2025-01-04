@@ -1,9 +1,16 @@
 .active {
+    width: 30px;
+    height: 30px;
     background-color: inherit;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
 }
 
 .active:hover {
-    transform: translateY(1px) translateX(1px);
+    background-color: #f8fafd;
 }
 
 .active:active {
@@ -11,14 +18,12 @@
 }
 
 .disabled {
+    width: 30px;
+    height: 30px;
     background-color: inherit;
     color: #eee8e1;
-}
-
-.disabled:hover {
-    transform: translateY(1px) translateX(1px);
-}
-
-.disabled:active {
-    transform: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

@@ -34,16 +34,18 @@ export const BlogCardList = ({ posts, itemsPerPage, isPagination } :BlogCardList
                     </div>
                 ))}
             </div>
-            {isPagination ?
-                <Pagination
-                    posts={posts}
-                    itemsPerPage={itemsPerPage}
-                    page={page}
-                    handlePageChange={handlePageChange}
-                />
-                :
-                <div/>
-            }
+            <div className={styles.pagination}>
+                {isPagination ?
+                    <Pagination
+                        posts={posts}
+                        itemsPerPage={itemsPerPage}
+                        page={page}
+                        handlePageChange={handlePageChange}
+                    />
+                    :
+                    <div/>
+                }
+            </div>
         </div>
     );
 }

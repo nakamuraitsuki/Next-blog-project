@@ -1,24 +1,21 @@
 .selected {
-    background-color: inherit;
-}
-
-.selected:hover {
-    transform: translateY(1px) translateX(1px);
-}
-
-.selected:active {
-    transform: none;
+    width: 30px;
+    height: 30px;
+    color: #ffffff;
+    background-color: #f3d500;
+    border-radius: 50%;
+    border: none;
+    border: none;
 }
 
 .unselected {
+    width: 30px;
+    height: 30px;
     background-color: inherit;
-    color: #eee8e1;
+    border: none;
+    border-radius: 50%;
 }
 
 .unselected:hover {
-    transform: translateY(1px) translateX(1px);
-}
-
-.unselected:active {
-    transform: none;
+    background-color: #f8fafd;
 }
