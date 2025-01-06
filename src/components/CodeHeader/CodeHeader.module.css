@@ -11,6 +11,12 @@
     border-top-right-radius: 8px;
 }
 
+@media (prefers-color-scheme:dark) {
+    .header {
+        background-color: #e6b800;
+    }
+}
+
 .meta {
     font-size: 1.125rem !important;
     line-height: 1.25rem !important;
