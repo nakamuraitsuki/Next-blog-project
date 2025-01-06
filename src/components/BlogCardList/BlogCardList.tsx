@@ -26,7 +26,7 @@ export const BlogCardList = ({ posts, itemsPerPage, isPagination } :BlogCardList
     },[page]);
 
     return (
-        <div className={styles.wrap}>
+        <div className={isPagination ? styles.wrapPagination : styles.wrap}>
             <div className={styles.cardList}>
                 {filteredPosts.map((post) => (
                     <div key={post.slug}>
