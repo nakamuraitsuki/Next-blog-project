@@ -15,6 +15,14 @@
     color: #6f5d00;
     border-radius: 8px;
 }
+
+@media (prefers-color-scheme: dark) {
+    .tweet {
+        border: 1px solid #f3d500;
+        color: #f3d500;
+    }
+}
+
 /* 大きい丸 */
 .tweet::before{
     content: '';
@@ -27,6 +35,13 @@
     width: 15px;
     height: 15px;
 }
+
+@media (prefers-color-scheme: dark) {
+    .tweet::before {
+        border: 1px solid #f3d500;
+    }
+}
+
   /* 小さい丸 */
 .tweet::after{
     content: '';
@@ -38,4 +53,10 @@
     bottom: 10px;
     width: 10px;
     height: 10px;
+}
+
+@media (prefers-color-scheme: dark) {
+    .tweet::after {
+        border: 1px solid #f3d500;
+    }
 }
