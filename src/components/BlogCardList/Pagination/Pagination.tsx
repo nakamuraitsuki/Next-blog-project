@@ -7,7 +7,7 @@ import { Previous } from "./PaginationItems/Previous/Previous";
 import { Next } from "./PaginationItems/Next/Next";
 import { Page } from "./PaginationItems/Page/Page";
 
-interface PaginationProps {
+type PaginationProps = {
     posts: Post[];
     itemsPerPage: number;
     page: number;

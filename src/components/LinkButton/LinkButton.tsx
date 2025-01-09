@@ -2,10 +2,10 @@ import Link from "next/link";
 import styles from "./LinkButton.module.css"
 
 
-interface LinkButtonProps {
+type LinkButtonProps = {
     href: string;
     text: string;
-}
+};
 
 export const LinkButton = ({ href, text }: LinkButtonProps) => {
     return(

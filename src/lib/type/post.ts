@@ -1,12 +1,12 @@
 //メタデータの型
-export interface FrontMatter {
+export type FrontMatter = {
     title: string;
     date: string;
     description: string;
 }
   
 //記事の型
-export interface Post {
+export type Post = {
 frontMatter: FrontMatter;
 slug: string;
 content: string;

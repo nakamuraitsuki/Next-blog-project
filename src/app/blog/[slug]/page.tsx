@@ -5,9 +5,9 @@ import { BreadcrumbsItem, getAllPosts, getPostBySlug, markdownToJSX } from "@/li
 import 'highlight.js/styles/atom-one-dark.css';
 import { Layout, Toc } from "@/components";
 
-interface PostProps {
+type PostProps = {
     params: Promise<{ slug: string }>
-}
+};
 
 export async function generateStaticParams() {
     const posts = await getAllPosts();

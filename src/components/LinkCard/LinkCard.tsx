@@ -4,9 +4,9 @@ import { ogpData } from "@/lib";
 import Link from "next/link";
 import { FaImage } from "react-icons/fa";
 
-interface LinkCardProps {
+type LinkCardProps = {
     href: string | null;
-}
+};
 
 export const LinkCard = async ({ href }: LinkCardProps) => {
     //hrefが空の場合

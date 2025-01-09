@@ -7,11 +7,11 @@ import { useEffect, useState } from "react";
 import { ChangeEvent } from "react";
 import { Pagination } from "./Pagination/Pagination";
 
-interface BlogCardListProps {
+type BlogCardListProps = {
     posts: Post[];
     itemsPerPage: number;
     isPagination: boolean;
-}
+};
 
 export const BlogCardList = ({ posts, itemsPerPage, isPagination } :BlogCardListProps) => {
     const [page, setPage] = useState(1);

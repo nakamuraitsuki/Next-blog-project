@@ -3,11 +3,11 @@ import { ReactNode } from "react";
 import styles from "./CodeHeader.module.css";
 import { MdContentCopy } from "react-icons/md";
 
-interface CodeHeaderProps {
+type CodeHeaderProps = {
     meta: string;
     value: string;
     children: ReactNode
-}
+};
 
 export const CodeHeader = ({ meta, value, children }: CodeHeaderProps) => {
 
