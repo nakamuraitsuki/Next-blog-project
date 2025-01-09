@@ -1,5 +1,5 @@
 //目次型
-export interface TableOfContentsItem {
+export type TableOfContentsItem = {
     level: number;
     text: string;
     id: string;

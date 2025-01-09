@@ -1,8 +1,8 @@
-export interface BreadcrumbsItem {
+export type BreadcrumbsItem = {
     name: string;
     path: string;
-}
+};
 
-export interface BreadcrumbsProps {
+export type BreadcrumbsProps = {
     breadcrumbs: BreadcrumbsItem[]
-}
+};

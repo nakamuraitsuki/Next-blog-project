@@ -14,7 +14,7 @@ import { tweetHandler, divHandler, linkCardHandler, codeHeaderHandler } from './
 import { JSX } from 'react';
 import { aHandler } from './utils/aHandler';
 
-interface MarkdownContent {
+type MarkdownContent = {
     toc: TableOfContentsItem[];
     JSXElement: JSX.Element;
 }

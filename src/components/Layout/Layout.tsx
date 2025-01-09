@@ -5,10 +5,10 @@ import { Breadcrumbs } from "./Breadcrumbs/Breadcrumbs"
 import { ReactNode } from "react"
 import { BreadcrumbsItem } from "@/lib"
 
-interface LayoutProps {
+type LayoutProps = {
     breadcrumbs: BreadcrumbsItem[];
     children: ReactNode;
-}
+};
 
 export const Layout = ({ breadcrumbs ,children }: LayoutProps) => {
     return (

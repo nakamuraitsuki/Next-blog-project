@@ -2,9 +2,9 @@ import styles from "./BlogCard.module.css"
 import Link from "next/link";
 import { Post } from "@/lib/type";
 
-interface BlogCardProps {
+type BlogCardProps = {
     post: Post;
-}
+};
 
 export const BlogCard = ({ post } :BlogCardProps) => {
     return (

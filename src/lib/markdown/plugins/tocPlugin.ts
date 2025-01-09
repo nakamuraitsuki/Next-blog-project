@@ -6,9 +6,9 @@ import { visit } from "unist-util-visit";
 import { slug } from "github-slugger";
 import { TableOfContentsItem } from "@/lib/type";
 
-interface TocPluginProps {
+type TocPluginProps = {
     toc: TableOfContentsItem[];
-}
+};
 
 export const tocPlugin: Plugin<[TocPluginProps],Node,void> = ({ toc }) => {
     return (tree: Node, _file: VFile) => {

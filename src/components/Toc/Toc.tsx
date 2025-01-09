@@ -2,9 +2,9 @@ import Link from "next/link";
 import styles from "./Toc.module.css";
 import { TableOfContentsItem } from "@/lib/type";
 
-interface TocProps {
+type TocProps = {
     toc: TableOfContentsItem[];
-}
+};
 
 export const Toc = ({toc}: TocProps) => {
     return (
