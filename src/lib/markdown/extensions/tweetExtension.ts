@@ -1,6 +1,7 @@
 import { Extension, Construct, Tokenizer, State } from "micromark-util-types";
 import { codes } from "micromark-util-symbol";
 import { ok as assert } from "devlop";
+import { attention } from "micromark-core-commonmark";
 
 //TokenTypeを拡張
 declare module 'micromark-util-types' {
@@ -101,7 +102,7 @@ const tokenizeTweetContainer: Tokenizer = (effects, ok, nok) => {
         }
 
         colonCount = 0;//コロン以外だったらリセット
-        //TODO: ブロック構文の内部にあるその他構文も正しくトークン化されるようにする。
+        effects.attempt(attention, ok, nok);
         effects.consume(code);
         return openContent(code);
     } 
