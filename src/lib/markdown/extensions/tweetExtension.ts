@@ -1,13 +1,14 @@
 import { Extension, Construct, Tokenizer, State } from "micromark-util-types";
 import { codes } from "micromark-util-symbol";
 import { ok as assert } from "devlop";
+import { CgDesignmodo } from "react-icons/cg";
 
 //TokenTypeを拡張
 declare module 'micromark-util-types' {
     interface TokenTypeMap {
         tweetContainer: 'tweetContainer'//Tweet構文そのもの
         tweetContainerFence: 'tweetContainerFence'//開始記号":::tweet"
-        tweetContainerFenceClose: 'tweetConatinerFenceClose'//終了記号":::""
+        tweetContainerFenceClose: 'tweetContainerFenceClose'//終了記号":::""
         tweetContainerContent: 'tweetContainerContent'//構文内の内容
     }
 }
@@ -24,7 +25,7 @@ export const tweetExtension = (): Extension => {
 //Tokenizer（トークン化を定義）
 const tokenizeTweetContainer: Tokenizer = (effects, ok, nok) => {
 
-    //':'で始まっているならばスタート
+    //開始状態: ":"から開始
     const start: State = (code) => {
         assert(code === codes.colon, 'expected`:`');
         effects.enter("tweetContainer");
@@ -32,9 +33,9 @@ const tokenizeTweetContainer: Tokenizer = (effects, ok, nok) => {
         return openSequence(code);
     }
 
-    let cnt = 0 //tweetの何文字目を探索しているか記録する変数
+    let tweetCount = 0 //tweetの何文字目を探索しているか記録
 
-    //開始記号を読み取り・消費
+    //開始記号を解析:(:::tweet)
     const openSequence: State = (code) => {
         //":::"を消費
         if (code === codes.colon) {
@@ -42,10 +43,10 @@ const tokenizeTweetContainer: Tokenizer = (effects, ok, nok) => {
             return openSequence(code);
         }
 
-        //'t'を読み取ったら次へ
+        //'t'を読み取ったら"tweet"解析に進む
         if(code === codes.lowercaseT) {
             effects.consume(code);
-            cnt++;
+            tweetCount++;
             return openText(code);
         }
 
@@ -60,51 +61,61 @@ const tokenizeTweetContainer: Tokenizer = (effects, ok, nok) => {
     *ならば、次に進む関数openText
     */
     const openText: State = (code) => {
-        //"weet"部分を判定・消費
+        //"weet"部分を消費
         if (
-            (cnt === 1 && code === codes.lowercaseW) ||
-            (cnt === 2 && code === codes.lowercaseE) ||
-            (cnt === 3 && code === codes.lowercaseE) ||
-            (cnt === 4 && code === codes.lowercaseT)
+            (tweetCount === 1 && code === codes.lowercaseW) ||
+            (tweetCount === 2 && code === codes.lowercaseE) ||
+            (tweetCount === 3 && code === codes.lowercaseE) ||
+            (tweetCount === 4 && code === codes.lowercaseT)
         ) {
             effects.consume(code);
-            cnt++;
+            tweetCount++;
             return openText(code);
         }
 
-        if (code === codes.eof || code === codes.space) {
+        // "tweet の判定が完了し、空白または改行で開始フェンスを終了する"
+        if (tweetCount === 5 && (code === codes.space || code === codes.lineFeed)) {
             effects.exit("tweetContainerFence");
             effects.enter("tweetContainerContent");
             return openContent(code);
         }
 
-        return nok(code);
+        return nok(code);//不正な構文は失敗
     } 
     
-    //内容をトークン化するopenContent
+    let colonCount = 0;//終了フェンス':'の個数判定用
+
+    //内容を解析する
     const openContent: State = (code) => {
-        if (code === codes.colon || code === codes.eof) {
-            effects.exit("tweetContainerContent");
-            effects.enter("tweetContainerFenceClose");
+        if (code === codes.colon) {
+            colonCount++;
+
+            //
+            if(colonCount === 3){
+                effects.exit("tweetContainerContent");
+                effects.enter("tweetContainerFenceClose");
+                return sequenceClose(code);
+            }
 
             effects.consume(code);
-            return sequenceClose(code);
+            return openContent(code);
         }
 
+        colonCount = 0;//コロン以外だったらリセット
         //TODO: ブロック構文の内部にあるその他構文も正しくトークン化されるようにする。
         effects.consume(code);
         return openContent(code);
     } 
 
-    //終了記号":::"を判定・消費するsequenceClose
+    //終了記号解析:(:::)
     const sequenceClose: State = (code) => {
-        if (code === codes.colon) {
-          effects.consume(code);
-          return sequenceClose;
+        if (code === codes.space || code ===codes.lineFeed || code === codes.eof) {
+            effects.exit("tweetContainerFenceClose");
+            effects.exit("tweetContainer");
+            return ok(code);
         }
-        effects.exit("tweetContainerFenceClose");
-        effects.exit("tweetContainer");
-        return ok(code);
+
+        return nok(code);
     }
 
     return start
