@@ -90,7 +90,7 @@ const tokenizeTweetContainer: Tokenizer = (effects, ok, nok) => {
         if (code === codes.colon) {
             colonCount++;
 
-            //
+            //":::"を読み取る
             if(colonCount === 3){
                 effects.exit("tweetContainerContent");
                 effects.enter("tweetContainerFenceClose");
