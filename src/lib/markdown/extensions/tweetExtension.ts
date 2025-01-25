@@ -1,7 +1,6 @@
 import { Extension, Construct, Tokenizer, State } from "micromark-util-types";
 import { codes } from "micromark-util-symbol";
 import { ok as assert } from "devlop";
-import { CgDesignmodo } from "react-icons/cg";
 
 //TokenTypeを拡張
 declare module 'micromark-util-types' {
