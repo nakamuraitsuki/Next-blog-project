@@ -102,7 +102,6 @@ const tokenizeTweetContainer: Tokenizer = (effects, ok, nok) => {
         }
 
         colonCount = 0;//コロン以外だったらリセット
-        effects.attempt(attention, ok, nok);
         effects.consume(code);
         return openContent(code);
     } 
