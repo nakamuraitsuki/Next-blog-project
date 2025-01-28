@@ -45,12 +45,11 @@ const rehypeReactHandlers: Partial<Components> = {
 
 export async function markdownToJSX(content: string): Promise<MarkdownContent> {
     const tableOfContents: TableOfContentsItem[] = [];
-    console.log(content);
+
     //markdown →　JSX
     const result = await unified()
     .use(setRemarkParseExtensions)
     .use(remarkParse)
-    .use(print)
     .use(tocPlugin, {toc: tableOfContents})//目次抽出
     .use(linkCardPlugin)
     .use(codeHeaderPlugin)
