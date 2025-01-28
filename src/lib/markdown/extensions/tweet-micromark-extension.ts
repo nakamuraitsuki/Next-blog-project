@@ -36,7 +36,7 @@ const  tokenizeTweetContainer: Tokenizer = function(effects, ok, nok) {
     const openSequence: State = (code) => {
         console.log(code);
         //":::"を消費
-        if (code === codes.colon) {
+        if (code === codes.colon && startColonCount !== 3) {
             effects.consume(code);
             startColonCount++;
             return openSequence;
@@ -88,41 +88,37 @@ const  tokenizeTweetContainer: Tokenizer = function(effects, ok, nok) {
         effects.exit("tweetContainer");
         return nok(code);//不正な構文は失敗
     } 
-    
-    let endColonCount = 0;//終了フェンス':'の個数判定用
 
     //内容を解析する
     const openContent: State = (code) => {
         console.log(code);
-        if (code === codes.colon) {
-            endColonCount++;
-
-            //":::"を読み取る
-            if(endColonCount === 3){
-                effects.exit("tweetContainerContent");
-                console.log("exit tweetContainrContent");
-                effects.enter("tweetContainerFenceClose");
-                console.log("enter tweetContainrFenceClose");
-                return sequenceClose(code);
-            }
-
-            effects.consume(code);
-            return openContent;
+        //"\n"で内容終了
+        if (code === codes.lineFeed) {
+            effects.exit("tweetContainerContent");
+            console.log("exit tweetContainrContent");
+            effects.enter("tweetContainerFenceClose");
+            console.log("enter tweetContainrFenceClose");
+            return sequenceClose(code);
         }
 
-        endColonCount = 0;//コロン以外だったらリセット
         effects.consume(code);
         return openContent;
     } 
-
+    
+    let endColonCount = 0;//終了フェンス':'の個数判定用
     //終了記号解析:(:::)
     const sequenceClose: State = (code) => {
         console.log(code);
-        if (code === codes.colon) {
+        if (code === codes.lineFeed && endColonCount === 0) {
+            effects.consume(code);
+            endColonCount++;
+            return sequenceClose;
+        }
+        if (code === codes.colon && endColonCount !== 3) {
             effects.consume(code);
             return sequenceClose;
         }
-        if (code === codes.space || code ===codes.lineFeed || code === codes.eof || code === null) {
+        if (endColonCount === 3 && (code === codes.space || code ===codes.lineFeed || code === codes.eof || code === null)) {
             effects.exit("tweetContainerFenceClose");
             console.log("exit tweetContainerFenceClose");
             effects.exit("tweetContainer");
