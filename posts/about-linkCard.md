@@ -77,10 +77,8 @@ https://nextjs.org/docs/app/building-your-application/routing/route-handlers
 AppRouetrになってからルーティングが変わって、``src/app/api/route.ts``と書くと、``/api``をエンドポイントとしたあれこれが書けるようになっています。
 
 :::tweet
-公式ドキュメントの中でもPageRouterについてのものとAppRouterについてのものが共存していて、
-とっても混乱しました。何とかならんもんかね
+公式ドキュメントの中でもPageRouterについてのものとAppRouterについてのものが共存していて、とっても混乱しました。何とかならんもんかね
 :::
-
 今回は、``/app/api/proxy/route.ts``とかに色々書き込んでみます。
 
 ```ts /app/api/proxy/route.ts
@@ -585,8 +583,7 @@ https://www.npmjs.com/package/react-icons
 次にCSSを当てていきます。
 
 :::tweet
-設計をよく考えてなかったせいでCSSModulesでやってるのに競合が起こっちゃった。!importantでなんとかしたけれど
-いつかもっとうまくやる方法を模索した方がいいかも
+設計をよく考えてなかったせいでCSSModulesでやってるのに競合が起こっちゃった。!importantでなんとかしたけれど、いつかもっとうまくやる方法を模索した方がいいかも
 :::
 
 ```css LinkCard.module.css
