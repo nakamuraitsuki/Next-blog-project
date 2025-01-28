@@ -83,6 +83,7 @@ const  tokenizeTweetContainer: Tokenizer = function(effects, ok, nok) {
             console.log("enter tweetContainerContent");
             return openContent(code);
         }
+
         console.log("tokenize faile (openText)");
         effects.exit("tweetContainerFence");
         effects.exit("tweetContainer");
@@ -90,8 +91,14 @@ const  tokenizeTweetContainer: Tokenizer = function(effects, ok, nok) {
     } 
 
     //内容を解析する
+    let isInital = true;
     const openContent: State = (code) => {
         console.log(code);
+        if (isInital){
+            isInital = false;
+            effects.consume(code);
+            return openContent;
+        }
         //"\n"で内容終了
         if (code === codes.lineFeed) {
             effects.exit("tweetContainerContent");
@@ -114,11 +121,13 @@ const  tokenizeTweetContainer: Tokenizer = function(effects, ok, nok) {
             endColonCount++;
             return sequenceClose;
         }
+
         if (code === codes.colon && endColonCount !== 3) {
             effects.consume(code);
             return sequenceClose;
         }
-        if (endColonCount === 3 && (code === codes.space || code ===codes.lineFeed || code === codes.eof || code === null)) {
+
+        if ((code === codes.space || code ===codes.lineFeed || code === codes.eof || code === null)) {
             effects.exit("tweetContainerFenceClose");
             console.log("exit tweetContainerFenceClose");
             effects.exit("tweetContainer");
