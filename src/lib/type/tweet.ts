@@ -1,7 +1,7 @@
-import { PhrasingContent } from "mdast";
+import { Node as MdastNode, PhrasingContent } from "mdast";
 
 //Tweet用のNode
-export interface TweetNode extends Node {
+export interface TweetNode extends MdastNode {
     type: 'tweet';
     children: PhrasingContent[];
 }

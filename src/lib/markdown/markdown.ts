@@ -1,4 +1,4 @@
-import { unified } from 'unified';
+import { Plugin, unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import remarkGfm from 'remark-gfm';
@@ -8,16 +8,27 @@ import rehypeReact, { Components } from 'rehype-react';
 import {Fragment, jsx, jsxs} from 'react/jsx-runtime';
 import { Nodes } from "mdast";
 import { Handler } from "mdast-util-to-hast";
-import { tocPlugin, tweetPlugin, linkCardPlugin, codeHeaderPlugin } from "./plugins";
+import { tocPlugin, linkCardPlugin, codeHeaderPlugin } from "./plugins";
 import { TableOfContentsItem } from '../type';
 import { tweetHandler, divHandler, linkCardHandler, codeHeaderHandler } from './utils';
 import { JSX } from 'react';
 import { aHandler } from './utils/aHandler';
+import { Extension as MicromarkExtension} from "micromark-util-types";
+import { Extension as fromMarkdownExtension} from "mdast-util-from-markdown";
+import { tweetExtension } from './extensions/tweet-micromark-extension';
+import { tweetFromMarkdownExtension } from './extensions/tweet-mdast-util-from-markdown-extension';
 
 type MarkdownContent = {
     toc: TableOfContentsItem[];
     JSXElement: JSX.Element;
 }
+
+const setRemarkParseExtensions: Plugin = function() {
+    const micromarkExtensions = (this.data('micromarkExtensions') || []) as MicromarkExtension[];
+    const fromMarkdownExtensions = (this.data('fromMarkdownExtensions') || []) as fromMarkdownExtension[];
+    this.data('micromarkExtensions', [...micromarkExtensions, tweetExtension()]);
+    this.data('fromMarkdownExtensions', [...fromMarkdownExtensions, tweetFromMarkdownExtension()]);
+};
 
 //remarkRehypeに渡すカスタムハンドラ
 const remarkRehypeHandlers: Partial<Record<Nodes['type'], Handler>> = {
@@ -37,9 +48,9 @@ export async function markdownToJSX(content: string): Promise<MarkdownContent> {
 
     //markdown →　JSX
     const result = await unified()
+    .use(setRemarkParseExtensions)
     .use(remarkParse)
     .use(tocPlugin, {toc: tableOfContents})//目次抽出
-    .use(tweetPlugin)
     .use(linkCardPlugin)
     .use(codeHeaderPlugin)
     .use(remarkGfm)
