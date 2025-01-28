@@ -1,5 +1,4 @@
 import { Plugin, unified } from 'unified';
-import { VFile } from "vfile";
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import remarkGfm from 'remark-gfm';
@@ -7,9 +6,9 @@ import rehypeHighlight from 'rehype-highlight';
 import rehypeSlug from 'rehype-slug';
 import rehypeReact, { Components } from 'rehype-react';
 import {Fragment, jsx, jsxs} from 'react/jsx-runtime';
-import { Nodes, Root } from "mdast";
+import { Nodes } from "mdast";
 import { Handler } from "mdast-util-to-hast";
-import { tocPlugin, tweetPlugin, linkCardPlugin, codeHeaderPlugin, print } from "./plugins";
+import { tocPlugin, linkCardPlugin, codeHeaderPlugin, print } from "./plugins";
 import { TableOfContentsItem } from '../type';
 import { tweetHandler, divHandler, linkCardHandler, codeHeaderHandler } from './utils';
 import { JSX } from 'react';
