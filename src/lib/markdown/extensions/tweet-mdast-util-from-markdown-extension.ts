@@ -11,10 +11,10 @@ declare module 'mdast' {
 
 //トークンからTweetノード作成
 export const tweetFromMarkdownExtension = (): Extension => {
+    console.log("from markdown extension");
     return {
         enter: {
             tweetContainer: enterTweetContainer,
-            tweetContainerContent: enterTweetContainerContent,
         },
         exit: {
             tweetContainerContent: exitTweetContainerContent,
@@ -24,6 +24,9 @@ export const tweetFromMarkdownExtension = (): Extension => {
 }
 
 const enterTweetContainer: Handle = function (token: Token) {
+    console.log("---------node start---------");
+    console.log("enter tweet container");
+    console.log("token:",token);
     const node: TweetNode = {
         type: 'tweet',
         children: [],
@@ -32,12 +35,11 @@ const enterTweetContainer: Handle = function (token: Token) {
     this.enter(node, token);
 }
 
-const enterTweetContainerContent: Handle = function (_token: Token) {
-    this.buffer();
-}
-
-const exitTweetContainerContent: Handle = function (_token: Token) {
-    const content = this.resume();
+const exitTweetContainerContent: Handle = function (token: Token) {
+    console.log("exit tweet container content")
+    console.log("token:",token)
+    const content = (this.sliceSerialize(token)).replace(/::$/, "");
+    console.log("content:",content);
     const textNode: Text = {
         type: "text",
         value: content,
@@ -47,5 +49,7 @@ const exitTweetContainerContent: Handle = function (_token: Token) {
 }
 
 const exitTweetContainer: Handle = function (token: Token) {
+    console.log("exti tweet container")
+    console.log("token:",token)
     this.exit(token);
 };
