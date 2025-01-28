@@ -76,7 +76,18 @@ const  tokenizeTweetContainer: Tokenizer = function(effects, ok, nok) {
         }
 
         // "tweet の判定が完了し、空白または改行で開始フェンスを終了する"
-        if (tweetCount === 5 && (code === codes.space || code === codes.lineFeed)) {
+        if (tweetCount === 5) {
+            if (code === codes.space) {
+                effects.consume(code);
+                return openText;
+            }
+            
+            if (code !== codes.lineFeed) {
+                effects.exit("tweetContainerFence");
+                effects.exit("tweetContainer");
+                return nok(code);
+            }
+
             effects.exit("tweetContainerFence");
             console.log("exit tweetContainerFence");
             effects.enter("tweetContainerContent");
