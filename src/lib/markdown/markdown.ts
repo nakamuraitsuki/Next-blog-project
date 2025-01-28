@@ -8,7 +8,7 @@ import rehypeReact, { Components } from 'rehype-react';
 import {Fragment, jsx, jsxs} from 'react/jsx-runtime';
 import { Nodes } from "mdast";
 import { Handler } from "mdast-util-to-hast";
-import { tocPlugin, linkCardPlugin, codeHeaderPlugin, print } from "./plugins";
+import { tocPlugin, linkCardPlugin, codeHeaderPlugin } from "./plugins";
 import { TableOfContentsItem } from '../type';
 import { tweetHandler, divHandler, linkCardHandler, codeHeaderHandler } from './utils';
 import { JSX } from 'react';
