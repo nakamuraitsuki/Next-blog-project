@@ -1,6 +1,5 @@
 import { Extension, Construct, Tokenizer, State } from "micromark-util-types";
 import { codes } from "micromark-util-symbol";
-import { ok as assert } from "devlop";
 
 //TokenTypeを拡張
 declare module 'micromark-util-types' {
@@ -11,45 +10,47 @@ declare module 'micromark-util-types' {
         tweetContainerContent: 'tweetContainerContent'//構文内の内容
     }
 }
-
-//micromarkの拡張を定義
-export const tweetExtension = (): Extension => {
-    return {
-        flow: {
-            [codes.colon]: tweetContainer,
-        },
-    }
-}
-
+//TODO: 内容に\nや::が含まれてしまう
 //Tokenizer（トークン化を定義）
-const tokenizeTweetContainer: Tokenizer = (effects, ok, nok) => {
+const  tokenizeTweetContainer: Tokenizer = function(effects, ok, nok) {
+    console.log("--------tokenize start--------")
 
     //開始状態: ":"から開始
     const start: State = (code) => {
-        assert(code === codes.colon, 'expected`:`');
+        console.log(code);
+        if (code !== codes.colon) {
+            return nok(code);
+        }
+
         effects.enter("tweetContainer");
+        console.log("enter tweetContainer");
         effects.enter("tweetContainerFence");
+        console.log("enter tweetContainerFenec");
         return openSequence(code);
     }
 
+    let startColonCount = 0;
     let tweetCount = 0 //tweetの何文字目を探索しているか記録
 
     //開始記号を解析:(:::tweet)
     const openSequence: State = (code) => {
+        console.log(code);
         //":::"を消費
         if (code === codes.colon) {
             effects.consume(code);
-            return openSequence(code);
+            startColonCount++;
+            return openSequence;
         }
 
         //'t'を読み取ったら"tweet"解析に進む
-        if(code === codes.lowercaseT) {
-            effects.consume(code);
-            tweetCount++;
+        if(startColonCount === 3 && code === codes.lowercaseT) {
             return openText(code);
         }
 
         //条件にそぐわない場合失敗
+        console.log("tokenize faile (openSequence)");
+        effects.exit("tweetContainerFence");
+        effects.exit("tweetContainer");
         return nok(code);
     }
     /*
@@ -60,8 +61,10 @@ const tokenizeTweetContainer: Tokenizer = (effects, ok, nok) => {
     *ならば、次に進む関数openText
     */
     const openText: State = (code) => {
+        console.log(code);
         //"weet"部分を消費
         if (
+            (tweetCount === 0 && code === codes.lowercaseT) ||
             (tweetCount === 1 && code === codes.lowercaseW) ||
             (tweetCount === 2 && code === codes.lowercaseE) ||
             (tweetCount === 3 && code === codes.lowercaseE) ||
@@ -69,57 +72,84 @@ const tokenizeTweetContainer: Tokenizer = (effects, ok, nok) => {
         ) {
             effects.consume(code);
             tweetCount++;
-            return openText(code);
+            return openText;
         }
 
         // "tweet の判定が完了し、空白または改行で開始フェンスを終了する"
         if (tweetCount === 5 && (code === codes.space || code === codes.lineFeed)) {
             effects.exit("tweetContainerFence");
+            console.log("exit tweetContainerFence");
             effects.enter("tweetContainerContent");
+            console.log("enter tweetContainerContent");
             return openContent(code);
         }
-
+        console.log("tokenize faile (openText)");
+        effects.exit("tweetContainerFence");
+        effects.exit("tweetContainer");
         return nok(code);//不正な構文は失敗
     } 
     
-    let colonCount = 0;//終了フェンス':'の個数判定用
+    let endColonCount = 0;//終了フェンス':'の個数判定用
 
     //内容を解析する
     const openContent: State = (code) => {
+        console.log(code);
         if (code === codes.colon) {
-            colonCount++;
+            endColonCount++;
 
             //":::"を読み取る
-            if(colonCount === 3){
+            if(endColonCount === 3){
                 effects.exit("tweetContainerContent");
+                console.log("exit tweetContainrContent");
                 effects.enter("tweetContainerFenceClose");
+                console.log("enter tweetContainrFenceClose");
                 return sequenceClose(code);
             }
 
             effects.consume(code);
-            return openContent(code);
+            return openContent;
         }
 
-        colonCount = 0;//コロン以外だったらリセット
+        endColonCount = 0;//コロン以外だったらリセット
         effects.consume(code);
-        return openContent(code);
+        return openContent;
     } 
 
     //終了記号解析:(:::)
     const sequenceClose: State = (code) => {
-        if (code === codes.space || code ===codes.lineFeed || code === codes.eof) {
+        console.log(code);
+        if (code === codes.colon) {
+            effects.consume(code);
+            return sequenceClose;
+        }
+        if (code === codes.space || code ===codes.lineFeed || code === codes.eof || code === null) {
             effects.exit("tweetContainerFenceClose");
+            console.log("exit tweetContainerFenceClose");
             effects.exit("tweetContainer");
+            console.log("exit tweetContainer");
             return ok(code);
         }
-
+        console.log("tokenize faile (sequenceClose)")
+        effects.exit("tweetContainerFenceClose");
+        effects.exit("tweetContainer");
         return nok(code);
     }
 
     return start
 }
 
+//拡張で呼び出されるConstruct
 const tweetContainer: Construct = {
     tokenize: tokenizeTweetContainer,
     concrete: true,
+}
+
+//micromarkの拡張を定義
+export const tweetExtension = (): Extension => {
+    //console.log("micromark extension");
+    return {
+        flow: {
+            [codes.colon]: tweetContainer,
+        },
+    }
 }
