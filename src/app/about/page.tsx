@@ -72,7 +72,7 @@ function Description() {
             <h3 className={styles.section}>ちょっと技術的なこと</h3>
             <p>
                 触ったことのある言語としてはC・C++・Java・
-                JavaScript・TypeScript・GO等があります。
+                JavaScript・TypeScript・Go等があります。
             </p>
             <p>個人開発でフロントエンドとバックエンドの両方を触った経験があります。</p>
         </div>
