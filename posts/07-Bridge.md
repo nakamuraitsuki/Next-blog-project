@@ -203,3 +203,21 @@ ip a
 ここまでできたら完璧！
 
 VMがホストOSと同列になりました。
+
+## 3. とりあえずVMにNginxを入れてみる
+ここの章はほんとにいらんですね。
+表示確認用に、80番ポートにアクセスが来たときにNginxのデフォルトページが表示されれば便利かなと思って入れました。
+
+VMの中にNginxを入れます。
+```bash
+sudo apt install nginx
+```
+で、入れたらとりあえず状態を確認
+```bash
+sudo systemctl status nginx
+```
+良さそうなら有効化
+```bash
+sudo systemctl enable nginx
+```
+あとは、`http://[VMに割り当てられているIPアドレス]`にアクセス。Nginxのデフォルトページが見れるでしょう。
