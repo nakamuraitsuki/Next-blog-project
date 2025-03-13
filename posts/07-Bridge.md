@@ -19,3 +19,47 @@ description: 'ホストUbuntu上でquem-kvmで仮想マシンを立ち上げ、�
 6. 外部サーバーをVPNサーバーに、VMをVPNクライアントして接続する
 7. 外部サーバーの80番ポートへのアクセスをVMの80番ポートに横流しする設定
 
+## 1. qemu-kvmで仮想マシンを構築
+---
+**※この章は、VMを立ち上げたい方に向けています。VMを使わず、ホストをそのまま公開する方などは飛ばしてください。**
+
+まずは仮想マシンを立ち上げましょう。
+
+私のホストOSはUbuntuなので、そのままターミナルで操作をしていきます。
+
+### 必要なものをインストール
+
+```bash qemu-kvmとvirt-managerのインストール
+sudo apt update
+sudo apt upgrade
+sudo apt install qemu-kvm libvirt-daemon-system libvirt-clients brdge-utils
+sudo apt install virt-manager
+```
+インストールができたら、KVMを使えるように権限付与を行います。
+```bash /dev/kvmに権限付与
+sudo chmod a+rw /dev/kvm
+```
+次に、libvirtdを起動します。
+```bash libvirtdを起動
+sudo systemctl enable --now libvirtd
+```
+
+### Ubuntuのisoを取得
+今回はUbuntuのVMを構築します。お好きな方法でisoを取得してください。
+
+:::linkCard
+https://jp.ubuntu.com/download
+:::
+
+私はこのページからダウンロードしました。
+
+### VM構築
+次に、VMを構築します。まずは`virt-manager`起動
+```bash virt-manager起動
+virt-manager
+```
+そしたら、左上の「新しい仮想マシンの作成」を押下。
+先程ダウンロードしたisoを選択して、ぽちぽち進めます。
+
+私はネットワーク設定はデフォルトのまま進めました。いずれはブリッジにしますが。
+
