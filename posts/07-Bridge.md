@@ -370,3 +370,50 @@ sudo wg show
 ```
 で確認できます。
 
+## 7. 外部サーバーにきたアクセスをVMに流す設定
+---
+ファイヤーウォールを設定をいじって外部サーバーに来たアクセスを横流ししていきます。
+
+`iptables`を使ってファイアウォールをいじっていきます。
+
+まずはパケットのフォワードを許すように設定を変更しましょう。
+
+`/etc/sysctl.conf`をお好きなエディターで開いて編集します。
+```bash /etc/sysctl.conf（サーバー）
+net.ipv4.ip_forward=1
+```
+デフォルトでこの設定はコメントアウトされているので、コメントアウトを外して保存するだけでOK。
+
+`sysctl`コマンドで設定反映させましょうか。
+```bash
+sudo sysctl -p
+```
+
+サーバー側でDNAT、SNATの設定をしていきます。
+
+設定するDNATの要件をまとめておきます。
+- NATテーブルに
+- PREROUTINGとして
+- 受信インターフェースはこのVPNサーバーに限って
+- TCPプロトコル（今回は）
+- 80番ポートに来た通信を
+- DNAT実行で
+- 10.0.0.2の80番（VPNクライアント）に宛先変更
+
+これを実行する`iptables`ルールを追加しましょう。
+
+`enX0`は実際の自分のデバイス似直してください。
+
+`ip a`とか`nmcli`とかで確認してください。
+
+```bash DNATルール追加
+sudo iptables -t nat -A PREROUTING -i enX0 -p tcp --dport 80 -j DNAT --to-destination 10.0.0.2:80
+```
+
+一応SNATを設定しておきます。
+```bash SNATルール追加
+sudo iptables -t nat -A POSTROUTING -o wg0 -j MASQUERADE
+```
+これで、wg0からの返答をVPNサーバーのグローバルIPからの返答として変換できます。
+
+これで、外部からVPNサーバーにアクセスすると、ローカルにあるVMのNginxのデフォルトページが見れるはずです。
