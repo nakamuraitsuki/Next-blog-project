@@ -255,3 +255,118 @@ Ubuntuサーバーです。
 - VPN通信のために使う51820番ポート/UDP
 このあたりのポートは開けておいたほうがいいと思います。
 
+## 6. 外部サーバーとVMをVPNでつなげる
+---
+外部サーバーをVPNサーバーとして、VMをVPNクライアントに指定。
+
+この２つの通信を確立するところから始めましょう。
+
+VPNの種類もいくつかありますが、今回はセットアップがカンタンな`WireGuard`を使って見ます。
+
+以下のサイトなどを参考にセットアップをしていきます。
+
+:::linkCard
+https://gihyo.jp/admin/serial/01/ubuntu-recipe/0614
+:::
+
+このサイトを参考にしたりしながらやりました。
+
+基本方針は以下の通り
+1. クライアント・サーバー両方で秘密鍵、公開鍵を設定
+2. 鍵を交換して、設定ファイルに組み込む＋IPを割り当てる
+3. WireGuard起動！
+この３つだけです。とてもカンタンですね。
+
+公式ページを見ると、`WireGuard`は、ファストでシンプルなことを目指して開発されていそう。最高。
+
+:::linkCard
+https://www.wireguard.com/
+:::
+
+早速やってみましょう。
+### 1. クライアント・サーバーの両方で鍵を作成する。
+以下に書く手順はクライアント、サーバーの両方で行う手順です。
+まず、パッケージのインストールを行います。
+
+```bash WireGuardのインストール
+sudo apt install wireguard
+```
+次に、鍵を作成します。名前は、クライアント、サーバーどちらのものかわかりやすいようにします。
+```bash サーバーの秘密鍵を作成
+wg genkey | sudo tee /etc/wireguard/server.key
+sudo chmod 600 /etc/wireguard/server.key
+```
+秘密鍵をもとに、公開鍵を作りましょう。
+```bash サーバーの公開鍵作成
+sudo cat /etc/wireguard/server.key | wg pubkey | sudo tee /etc/wireguard/server.pub
+sudo chmod 600 /etc/wireguard/server.pub
+```
+
+上記の手順をクライアント側でも行います。
+
+```bash クライアントの秘密鍵を作成し、公開鍵も作る
+wg keygen | sudo tee /etc/wireguard/client.key
+sudo chmod 600 /etc/wireguard/client.key
+sudo cat /etc/wireguard/client.key | wg pubkey | sudo tee /etc/wireguard/client.pub
+sudo chmod 600 /etc/wireguard/client.pub
+```
+
+### 2. 鍵を交換して、設定ファイルに書き込む＋IP割り当て
+
+これはクライアント・サーバーどちらにも必要です。
+
+今回は、WireGuardのVPNに`10.0.0.0/24`というサブネットを割り当てます。
+
+サーバー側のIPを`10.0.0.1`、クライアント側のIPを`10.0.0.2`とします。
+
+また、作成するインターフェース名を`wg0`とします。
+
+設定ファイルの名前はこのインターフェース名を使わなくてはなりません。
+
+お好きな方法で`/etc/wireguard`の中に`wg0.conf`というファイルを作成します。（クライアント、サーバーともに）
+
+ひとまず、サーバー側の設定を済ませてしまいましょう。
+
+```bash サーバーの/etc/wireguard/wg0.confを設定
+[Interface]
+PrivateKey = あなたの作成したサーバー秘密鍵
+Address = サーバーに割り当てるIPアドレス（今回なら10.0.0.1）
+ListenPort = 51820
+
+[Peer]
+PublicKey = あなたの作成したクライアントの公開鍵
+AllowedIPs = 10.0.0.2/32（クライアントにあなたが割り当てたIP）
+```
+
+次に、クライアント側の設定をしましょう。
+```bash クライアントの/etc/wireguard/wg0.conf
+[Interface]
+PrivateKey = あなたの作成したクライアント秘密鍵
+Address = クライアントに割り当てるIPアドレス（今回なら10.0.0.2）
+
+[Peer]
+PublicKey = あなたが作成したサーバー公開鍵
+EndPoint = サーバーのIPアドレス:51820
+AllowedIPs = 10.0.0.1/24
+```
+
+### 3. WireGuard起動！
+`WireGuard`は、ラッパースクリプトを使ってカンタンに起動することができます。
+```bash 起動（サーバー）
+sudo systemctl enable wg-quick@wg0
+sudo systemctl start wg-quick@wg0
+```
+起動が完了したら、サーバーはリッスン状態に入ります。
+
+次に、クライアントからリッスン状態にあるサーバーと接続していきましょう。
+
+```bash 接続（クライアント）
+sudo wg-quick up wg0
+```
+
+接続状態は
+```bash
+sudo wg show
+```
+で確認できます。
+
