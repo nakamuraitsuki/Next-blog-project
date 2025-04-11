@@ -10,7 +10,7 @@ export const SeriesCard = ({ series } :SeriesCardProps) => {
     return (
         <Link href={`/series/${series.name}`} passHref>
             <div className={styles.card}>
-                <h1 className={styles.title}>{series.name}</h1> 
+                <h3 className={styles.title}>{series.name}</h3> 
                 <p>記事数：{series.size}</p>
             </div>
         </Link>
