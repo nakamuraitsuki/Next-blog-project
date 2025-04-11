@@ -42,8 +42,8 @@ export default async function Slug(props: PostProps) {
         notFound();
     }
 
-    var prePost = null;
-    var nextPost = null;
+    let prePost = null;
+    let nextPost = null;
     if(post.frontMatter.pre) {
         prePost = await getPostBySlug(post.frontMatter.pre);
     }
