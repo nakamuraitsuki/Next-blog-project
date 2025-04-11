@@ -40,6 +40,26 @@ export const getAllPosts = async (): Promise<Post[]> => {
   }
 };
 
+// シリーズの一覧を取得
+export const getAllSeries = async (): Promise<string[]> => {
+  try {
+    const posts = await getAllPosts(); // 全記事を取得
+    const seriesSet = new Set<string>(); // 重複を避けるためのセット
+
+    // 各記事のシリーズをセットに追加
+    posts.forEach((post) => {
+      if (post.frontMatter.series) {
+        seriesSet.add(post.frontMatter.series);
+      }
+    });
+
+    return Array.from(seriesSet); // セットを配列に変換して返す
+  } catch (error) {
+    console.error('Error reading series:', error);
+    return []; // エラー時は空の配列を返す
+  }
+}
+
 // 特定の記事の内容を取得
 export const getPostBySlug = async (slug: string): Promise<Post | null> => {
   try {
@@ -67,3 +87,26 @@ export const getPostBySlug = async (slug: string): Promise<Post | null> => {
     return null; // エラー時はnullを返す
   }
 };
+
+export const getPostsBySeries = async (series: string | null): Promise<Post[]> => {
+  try {
+    const posts = await getAllPosts(); // 全記事を取得
+
+    const seriesPosts = posts.filter((post) => {
+      const s = post.frontMatter.series;
+
+      if (series === "none") {
+        return !s; // null, undefined, 空文字 など
+      }
+
+      return s === series;
+    });
+
+    return seriesPosts;
+  } catch (error) {
+    console.error(`Error reading posts by series: ${series}`, error);
+    return [];
+  }
+};
+
+

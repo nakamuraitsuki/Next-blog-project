@@ -1,10 +1,14 @@
-//メタデータの型
+// 記事のメタデータの型
 export type FrontMatter = {
-    title: string;
-    date: string;
-    description: string;
+    title: string;          
+    description: string;    
+    date: string;           
+    tags?: string[];        
+    series?: string;        
+    pre?: string;           
+    next?: string;            
 }
-  
+
 //記事の型
 export type Post = {
 frontMatter: FrontMatter;

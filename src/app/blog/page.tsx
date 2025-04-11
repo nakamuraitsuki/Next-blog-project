@@ -11,13 +11,21 @@ const BREAD_CLUMBS: BreadcrumbsItem[] = [
 const ITEMS_PER_PAGE = 4;
 
 export default async function Blog() {
-    const posts = await getAllPosts();
     return (
         <Layout breadcrumbs={BREAD_CLUMBS}>
+            <PostsList/>
+        </Layout>
+    );
+}
+
+const PostsList = async() => {
+    const posts = await getAllPosts();
+    return(
+        <>
             <h1 className={styles.title}>記事一覧</h1>
             <div className={styles.List}>
                 <BlogCardList posts={posts} itemsPerPage={ITEMS_PER_PAGE} isPagination={true} />
             </div>
-        </Layout>
-    );
+        </>
+    )
 }
