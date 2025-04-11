@@ -1,0 +1,29 @@
+.active {
+    width: 30px;
+    height: 30px;
+    background-color: inherit;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.active:hover {
+    background-color: #f8fafd;
+}
+
+.active:active {
+    transform: none;
+}
+
+.disabled {
+    width: 30px;
+    height: 30px;
+    background-color: inherit;
+    color: #eee8e1;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

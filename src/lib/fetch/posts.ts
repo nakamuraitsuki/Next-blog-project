@@ -1,7 +1,7 @@
 import fs from 'fs/promises'; //fsモジュール（非同期版）
 import path from 'path'; //pathをつかさどる
 import matter from 'gray-matter';
-import { FrontMatter, Post } from '../type';
+import { FrontMatter, Post, Series } from '../type';
 
 //起動時にルートディレクトリを得て、ルート直下のpostsディレクトリパスにする
 const postDirectory = path.join(process.cwd(), 'posts');
@@ -41,26 +41,35 @@ export const getAllPosts = async (): Promise<Post[]> => {
 };
 
 // シリーズの一覧を取得
-export const getAllSeries = async (): Promise<string[]> => {
+export const getAllSeries = async (): Promise<Series[]> => {
   try {
-    const posts = await getAllPosts(); // 全記事を取得
-    const seriesSet = new Set<string>(); // 重複を避けるためのセット
+    const posts = await getAllPosts();
+    const seriesMap: Map<string, Series> = new Map();
 
-    // 各記事のシリーズをセットに追加
     posts.forEach((post) => {
-      if (post.frontMatter.series) {
-        seriesSet.add(post.frontMatter.series);
+      const s = post.frontMatter.series || "none";
+
+      if (!seriesMap.has(s)) {
+        seriesMap.set(s, {
+          name: s,
+          size: 0,
+          posts: [],
+        });
+      }
+
+      const seriesEntry = seriesMap.get(s);
+      if (seriesEntry) {
+        seriesEntry.posts.push(post);
+        seriesEntry.size += 1;
       }
     });
 
-    var series = Array.from(seriesSet); // セットを配列に変換
-    series.push("none"); // "none"を追加
-    return series // セットを配列に変換して返す
+    return Array.from(seriesMap.values());
   } catch (error) {
-    console.error('Error reading series:', error);
-    return []; // エラー時は空の配列を返す
+    console.error("Error reading all series:", error);
+    return [];
   }
-}
+};
 
 // 特定の記事の内容を取得
 export const getPostBySlug = async (slug: string): Promise<Post | null> => {
@@ -90,7 +99,7 @@ export const getPostBySlug = async (slug: string): Promise<Post | null> => {
   }
 };
 
-export const getPostsBySeries = async (series: string | null): Promise<Post[]> => {
+export const getPostsBySeries = async (series: string | null): Promise<Series | null> => {
   try {
     const posts = await getAllPosts(); // 全記事を取得
 
@@ -98,17 +107,19 @@ export const getPostsBySeries = async (series: string | null): Promise<Post[]> =
       const s = post.frontMatter.series;
 
       if (series === "none") {
-        return !s; // null, undefined, 空文字 など
+        return s == null; // null または undefined の記事だけ
       }
 
       return s === series;
     });
 
-    return seriesPosts;
+    return {
+      name: series,
+      size: seriesPosts.length,
+      posts:seriesPosts,
+    } as Series;
   } catch (error) {
     console.error(`Error reading posts by series: ${series}`, error);
-    return [];
+    return null;
   }
 };
-
-

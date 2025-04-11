@@ -1,0 +1,38 @@
+.wrap {
+  max-width: 840px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.wrapPagination {
+  min-height: 534px;
+  max-width: 840px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.cardList {
+    max-width:840px;
+    display: flex;
+    flex-wrap: wrap;
+    gap:40px;
+    margin:0 auto;
+}
+
+@media (max-width: 855px) {
+    .cardList {
+      justify-content: center; /* 画面の横幅が860px以下の時に中央揃え */
+    }
+}
+
+.pagination {
+  margin: 32px 0;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+

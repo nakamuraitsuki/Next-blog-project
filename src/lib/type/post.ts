@@ -15,3 +15,10 @@ frontMatter: FrontMatter;
 slug: string;
 content: string;
 }
+
+//シリーズの型
+export type Series = {
+    name: string;
+    size: number;
+    posts: Post[];
+}

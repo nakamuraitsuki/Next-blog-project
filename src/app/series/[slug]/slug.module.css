@@ -1,0 +1,292 @@
+.hero {
+    width: 100%;
+    margin: 32px auto;
+    text-align: center;
+    color: #6f5d00;
+}
+
+@media (max-width: 376px) {
+    .hero {
+        font-size: 1.75rem;
+    }
+} 
+
+@media (max-width: 321px) {
+    .hero {
+        font-size: 1.5rem;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .hero {
+        color: #f3d500;
+    }
+}
+
+.mainContent {
+    max-width: 100%;
+    width: fit-content;
+    height: auto;
+    margin: 0 auto;
+    display: flex;
+    gap: 32px;
+}
+
+.articleContent {
+    max-width: 840px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 24px;
+    border-radius: 12px;
+    background-color: #fff9ee;
+    border: 1px solid #eee2bc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+    .articleContent {
+        background-color: #2c2c2c;
+        border: 1px solid #444444;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+}
+
+.sidebar {
+    width: 300px;
+}
+
+@media (max-width: 1200px) {
+    .sidebar {
+        display: none;
+    }
+}
+
+.stickyBlock {
+    position: sticky;
+    top: 30px;
+}
+
+.date {
+    width: 100%;
+    text-align: right;
+    color: #6f5d00;
+}
+
+@media (prefers-color-scheme: dark) {
+    .date {
+        color: #f3d500;
+    }
+}
+
+/* markdown タイトル関係 */
+.markdown h1, 
+.markdown h2, 
+.markdown h3,
+.markdown h4 {
+    color: #6f5d00;
+}
+
+.markdown h1 {
+    width: 100%;
+    margin-top: 24px;
+    margin-bottom: 0;
+}
+
+.markdown h2 {
+    width: 100%;
+    margin-top: 32px;
+    margin-bottom: 0px;
+}
+
+.markdown h3 {
+    margin-top: 16px;
+    margin-bottom: 0px;
+}
+
+.markdown h4 {
+    margin-top: 16px;
+}
+
+@media (prefers-color-scheme: dark) {
+    .markdown h1,
+    .markdown h2,
+    .markdown h3,
+    .markdown h4 {
+        color: #f3d500;
+    }
+}
+
+/* 段落 */
+.markdown p {
+    font-size: 1rem;
+    line-height: 2rem;
+}
+
+@media (max-width: 426px) {
+    .markdown p {
+        line-height: 1.25rem;
+    }
+}
+
+@media (max-width: 376px) {
+    .markdown p {
+        font-size: 0.875rem;
+        line-height:1rem;
+    }
+}
+/*区切り線*/
+.markdown hr {
+    margin-top: 0px;
+    margin-bottom: 16px;
+    border: none;
+    border-top: 1.5px solid #fce27c;
+}
+
+@media (prefers-color-scheme: dark) {
+    .markdown hr {
+        border-top: 1.5px solid #f3d500;
+    }
+}
+
+/* 箇条書き */
+.markdown ul,
+.markdown ol {
+    margin: 0 24px;
+}
+
+.markdown li::marker {
+    color: #6f5d00;
+}
+
+@media (prefers-color-scheme: dark) {
+    .markdown li::marker {
+        color: #f3d500;
+    }
+}
+
+/* リンク */
+.markdown a {
+    text-decoration: underline;
+    color: #6f5d00;
+}
+
+@media (prefers-color-scheme: dark) {
+    .markdown a {
+        color: #f3d500;
+    }
+}
+
+/* 画像 */
+.markdown img {
+    max-width:100%;
+    display: block;
+    margin: 12px auto;
+    max-height: 70vh;
+}
+
+/* 引用文 */
+.markdown blockquote {
+    margin: 1em 2em;
+    padding: 0.5em 1em;
+    border-left: 4px solid #fce27c;
+    color: #555;
+    font-style: italic;
+    background-color: #ffffff;
+}
+
+@media (max-width: 426px) {
+    .markdown blockquote {
+        margin: 8px 8px;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .markdown blockquote {
+        border-left: 4px solid #f3d500;
+        color: #ddd;
+        background-color: #2c2c2c;
+    }
+}
+
+/* インラインコード */
+.markdown p code {
+    background-color: #ffffff;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-size: 1rem;
+    display: inline-block;
+}
+
+@media (max-width: 376px) {
+    .markdown p code {
+        font-size: 0.875rem;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .markdown p code {
+        background-color: #444444;
+        color: #f3d500;
+    }
+}
+
+.markdown pre code {
+    margin: 12px 0;
+    font-size: 1rem;
+    line-height: 1.25rem;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 426px) {
+    .markdown pre code {
+        margin: 8px 0;
+        font-size: 0.75rem;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .markdown pre code {
+        background-color: #2c2c2c;
+        border: 0.5px solid #f3d500;
+    }
+}
+
+/* 表 */
+.markdown table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+@media (max-width: 426px) {
+    .markdown table {
+        margin: 8px 0;
+    }
+}
+
+.markdown td,
+.markdown th {
+    padding: 8px 12px;
+    text-align: left;
+    border: 1px solid #6f5d00;
+}
+
+.markdown th {
+    background-color: #fce27c;
+    font-weight: bold;
+}
+
+@media (prefers-color-scheme: dark) {
+    .markdown td,
+    .markdown th {
+        border: 1px solid #f3d500;
+    }
+
+    .markdown th {
+        background-color: #444444;
+        color: #f3d500;
+    }
+}
