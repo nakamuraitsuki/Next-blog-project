@@ -222,8 +222,7 @@ type WebsocketManager interface {
 
 を想定した作りになっています。
 
-`WebSocketConnectio`って、ただのAdapterじゃないの？と思われるかもしれません。
-
+`WebSocketConnection`って、ただのAdapterじゃないの？と思われるかもしれません。
 いちおうwebsocket関連の接続では`[]byte`やり取りがメインのところを、`entiry.Message`の受け入れに変換しているという点で`domain/service`味があるかな…と思ってここに置いています。
 
 この辺のやり方をきちんと整理できていないのも今回の反省点の一つです。
