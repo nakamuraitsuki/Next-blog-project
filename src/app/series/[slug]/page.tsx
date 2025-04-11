@@ -20,12 +20,13 @@ export async function generateStaticParams() {
 export const generateMetadata = async (props: PostProps): Promise<Metadata> => {
     const params = await props.params;
     const { slug } = params;
+    const seriesName = decodeURIComponent(slug);
   
     return {
-      title: `${slug}【しゃべる葦原】`,
+      title: `${seriesName}【しゃべる葦原】`,
       openGraph: {
-        title: `${slug}【しゃべる葦原】`,
-        url: `https://your-site.com/post/${slug}`, // 共有されるURLを設定
+        title: `${seriesName}【しゃべる葦原】`,
+        url: `https://your-site.com/post/${seriesName}`, // 共有されるURLを設定
       }
     };
 }
@@ -35,7 +36,8 @@ const ITEMS_PER_PAGE = 4;
 export default async function Slug(props: PostProps) {
     const params = await props.params;
     const { slug } = params;
-    const series = await getPostsBySeries(slug)
+    const seriesName = decodeURIComponent(slug);
+    const series = await getPostsBySeries(seriesName)
 
     if(!series) {
         notFound();
@@ -44,7 +46,7 @@ export default async function Slug(props: PostProps) {
     const breadcrumbs: BreadcrumbsItem[] = [
         { name: "Home", path: "/" },
         { name: "シリーズ", path: "/series" },
-        { name: series.name, path: `/blog/${series.name}` },
+        { name: series.name, path: `/series/${slug}` },
     ]
 
     return (

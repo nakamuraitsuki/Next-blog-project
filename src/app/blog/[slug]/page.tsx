@@ -48,7 +48,7 @@ export default async function Slug(props: PostProps) {
         { name: "記事一覧", path: "/blog" },
         { name: post.frontMatter.title, path: `/blog/${post.slug}` },
     ]
-
+    console.log(post.frontMatter)
     return (
         <Layout breadcrumbs={breadcrumbs}>
             <h1 className={styles.hero}>{post.frontMatter.title}</h1>

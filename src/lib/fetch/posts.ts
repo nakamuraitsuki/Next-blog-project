@@ -64,7 +64,15 @@ export const getAllSeries = async (): Promise<Series[]> => {
       }
     });
 
-    return Array.from(seriesMap.values());
+    const res = Array.from(seriesMap.values());
+
+    res.forEach((series) => {
+      series.posts.sort((postA, postB) =>
+        new Date(postA.frontMatter.date) < new Date(postB.frontMatter.date) ? -1 : 1
+      );
+    });
+
+    return res
   } catch (error) {
     console.error("Error reading all series:", error);
     return [];
@@ -113,10 +121,14 @@ export const getPostsBySeries = async (series: string | null): Promise<Series | 
       return s === series;
     });
 
+    const sortedSeriesPosts = seriesPosts.sort((postA, postB) =>
+      new Date(postA.frontMatter.date) < new Date(postB.frontMatter.date) ? -1 : 1
+    );
+
     return {
       name: series,
       size: seriesPosts.length,
-      posts:seriesPosts,
+      posts: sortedSeriesPosts,
     } as Series;
   } catch (error) {
     console.error(`Error reading posts by series: ${series}`, error);
