@@ -1,7 +1,9 @@
 import styles from "./blog.module.css"
+import Link from "next/link";
 import { getAllPosts } from "@/lib"
 import { Layout, BlogCardList } from "@/components";
 import { BreadcrumbsItem } from "@/lib";
+import { MdLibraryBooks } from "react-icons/md";
 
 const BREAD_CLUMBS: BreadcrumbsItem[] = [
     { name: "Home", path: "/" },
@@ -15,6 +17,11 @@ export default async function Blog() {
     return (
         <Layout breadcrumbs={BREAD_CLUMBS}>
             <h1 className={styles.title}>記事一覧</h1>
+            <div className={styles.icon_wrap}>
+                <Link href="/series" className={styles.icon} passHref>
+                    <MdLibraryBooks size={32} title="シリーズ一覧へ"/>
+                </Link>
+            </div>
             <div className={styles.List}>
                 <BlogCardList posts={posts} itemsPerPage={ITEMS_PER_PAGE} isPagination={true} />
             </div>

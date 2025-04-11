@@ -4,6 +4,7 @@ import styles from "./slug.module.css"
 import { BreadcrumbsItem, getAllPosts, getPostBySlug, markdownToJSX } from "@/lib"
 import 'highlight.js/styles/atom-one-dark.css';
 import { Layout, Toc } from "@/components";
+import Link from "next/link";
 
 type PostProps = {
     params: Promise<{ slug: string }>
@@ -41,6 +42,15 @@ export default async function Slug(props: PostProps) {
         notFound();
     }
 
+    let prePost = null;
+    let nextPost = null;
+    if(post.frontMatter.pre) {
+        prePost = await getPostBySlug(post.frontMatter.pre);
+    }
+    if(post.frontMatter.next) {
+        nextPost = await getPostBySlug(post.frontMatter.next);
+    }
+
     const markdownContents = await markdownToJSX(post.content);
 
     const breadcrumbs: BreadcrumbsItem[] = [
@@ -48,15 +58,35 @@ export default async function Slug(props: PostProps) {
         { name: "記事一覧", path: "/blog" },
         { name: post.frontMatter.title, path: `/blog/${post.slug}` },
     ]
-
+    console.log(post.frontMatter)
     return (
         <Layout breadcrumbs={breadcrumbs}>
             <h1 className={styles.hero}>{post.frontMatter.title}</h1>
             <div className={styles.mainContent}>
-                <div className={styles.articleContent}>
-                    <p className={styles.date}>{post.frontMatter.date}</p>
-                    <div className={styles.markdown}>
-                        {markdownContents.JSXElement}
+                <div>
+                    <div className={styles.articleContent}>
+                        <p className={styles.date}>{post.frontMatter.date}</p>
+                        <div className={styles.markdown}>
+                            {markdownContents.JSXElement}
+                        </div>
+                    </div>
+                    <div className={styles.postLink_wrap}>
+                        { post.frontMatter.pre && prePost &&
+                            <div className={styles.postLink}>
+                                <Link href={`/blog/${prePost.slug}`} className={styles.postLinkButton}>
+                                    <p className={styles.postLinkText}>前の記事</p>
+                                    <p className={styles.postLinkTitle}>{prePost.frontMatter.title}</p>
+                                </Link> 
+                            </div>
+                        }
+                        { post.frontMatter.next && nextPost &&
+                            <div className={styles.postLink}>
+                                <Link href={`/blog/${nextPost.slug}`} className={styles.postLinkButton}>
+                                    <p className={styles.postLinkText}>次の記事</p>
+                                    <p className={styles.postLinkTitle}>{nextPost.frontMatter.title}</p>
+                                </Link> 
+                            </div>
+                        }
                     </div>
                 </div>
                 <aside className={styles.sidebar}>

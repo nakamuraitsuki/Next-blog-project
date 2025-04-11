@@ -1,7 +1,7 @@
 import fs from 'fs/promises'; //fsモジュール（非同期版）
 import path from 'path'; //pathをつかさどる
 import matter from 'gray-matter';
-import { FrontMatter, Post } from '../type';
+import { FrontMatter, Post, Series } from '../type';
 
 //起動時にルートディレクトリを得て、ルート直下のpostsディレクトリパスにする
 const postDirectory = path.join(process.cwd(), 'posts');
@@ -40,6 +40,45 @@ export const getAllPosts = async (): Promise<Post[]> => {
   }
 };
 
+// シリーズの一覧を取得
+export const getAllSeries = async (): Promise<Series[]> => {
+  try {
+    const posts = await getAllPosts();
+    const seriesMap: Map<string, Series> = new Map();
+
+    posts.forEach((post) => {
+      const s = post.frontMatter.series || "none";
+
+      if (!seriesMap.has(s)) {
+        seriesMap.set(s, {
+          name: s,
+          size: 0,
+          posts: [],
+        });
+      }
+
+      const seriesEntry = seriesMap.get(s);
+      if (seriesEntry) {
+        seriesEntry.posts.push(post);
+        seriesEntry.size += 1;
+      }
+    });
+
+    const res = Array.from(seriesMap.values());
+
+    res.forEach((series) => {
+      series.posts.sort((postA, postB) =>
+        new Date(postA.frontMatter.date) < new Date(postB.frontMatter.date) ? -1 : 1
+      );
+    });
+
+    return res
+  } catch (error) {
+    console.error("Error reading all series:", error);
+    return [];
+  }
+};
+
 // 特定の記事の内容を取得
 export const getPostBySlug = async (slug: string): Promise<Post | null> => {
   try {
@@ -65,5 +104,34 @@ export const getPostBySlug = async (slug: string): Promise<Post | null> => {
   } catch (error) {
     console.error(`Error reading post by slug: ${slug}`, error);
     return null; // エラー時はnullを返す
+  }
+};
+
+export const getPostsBySeries = async (series: string | null): Promise<Series | null> => {
+  try {
+    const posts = await getAllPosts(); // 全記事を取得
+
+    const seriesPosts = posts.filter((post) => {
+      const s = post.frontMatter.series;
+
+      if (series === "none") {
+        return s == null; // null または undefined の記事だけ
+      }
+
+      return s === series;
+    });
+
+    const sortedSeriesPosts = seriesPosts.sort((postA, postB) =>
+      new Date(postA.frontMatter.date) < new Date(postB.frontMatter.date) ? -1 : 1
+    );
+
+    return {
+      name: series,
+      size: seriesPosts.length,
+      posts: sortedSeriesPosts,
+    } as Series;
+  } catch (error) {
+    console.error(`Error reading posts by series: ${series}`, error);
+    return null;
   }
 };
