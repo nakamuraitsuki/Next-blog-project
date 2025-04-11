@@ -53,7 +53,9 @@ export const getAllSeries = async (): Promise<string[]> => {
       }
     });
 
-    return Array.from(seriesSet); // セットを配列に変換して返す
+    var series = Array.from(seriesSet); // セットを配列に変換
+    series.push("none"); // "none"を追加
+    return series // セットを配列に変換して返す
   } catch (error) {
     console.error('Error reading series:', error);
     return []; // エラー時は空の配列を返す
