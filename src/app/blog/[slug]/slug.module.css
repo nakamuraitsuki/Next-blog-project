@@ -32,6 +32,11 @@
     gap: 32px;
 }
 
+.articleContent_wrap {
+    max-width: 840px;
+    width: 100%;
+}
+
 .articleContent {
     max-width: 840px;
     width: 100%;

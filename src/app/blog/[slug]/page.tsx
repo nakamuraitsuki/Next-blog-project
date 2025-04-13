@@ -63,7 +63,7 @@ export default async function Slug(props: PostProps) {
         <Layout breadcrumbs={breadcrumbs}>
             <h1 className={styles.hero}>{post.frontMatter.title}</h1>
             <div className={styles.mainContent}>
-                <div>
+                <div className={styles.articleContent_wrap}>
                     <div className={styles.articleContent}>
                         <p className={styles.date}>{post.frontMatter.date}</p>
                         <div className={styles.markdown}>
