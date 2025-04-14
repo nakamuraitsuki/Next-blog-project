@@ -126,6 +126,7 @@ func (w *WebsocketClient) SetCandidate(candidate []string) {
 が、これは今まで**保守性に欠ける不正気味な操作をしてラクをしていた**わけで。
 
 これがあるべき姿な、はず。
+
 ---
 題目にもなっている`encoding/json`直接使えない問題は`infrastructure/service_impl`で起こりました。
 
