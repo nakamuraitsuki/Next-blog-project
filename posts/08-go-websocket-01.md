@@ -3,6 +3,7 @@ title: 'WebSocketサーバーをGoで動かす(1)'
 date: '2025-04-12'
 description: 'レイヤードアーキテクチャを意識しながら、GoでWebSocketサーバー設計をやってみる'
 series: 'GoでWebSocketサーバー'
+next: '09-go-websocket-02'
 ---
 
 ## 概要
